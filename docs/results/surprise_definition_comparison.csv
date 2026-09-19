@@ -1,0 +1,3 @@
+definition,n_beat,n_miss,drift_d20_spread_pp,p_naive,p_season_clustered,n_overlap_events,first_overlap,last_overlap,rank_correlation,bucket_agreement_pct
+SUE (point-in-time),2775,2596,0.8501504662548319,7.371505373248322e-06,0.004,15152,2013-04-29,2026-08-19,0.19856450168580178,42.562038014783525
+percent of consensus (not point-in-time),7280,1458,0.560410004858938,0.012181113215305501,0.0297,15152,2013-04-29,2026-08-19,0.19856450168580178,42.562038014783525

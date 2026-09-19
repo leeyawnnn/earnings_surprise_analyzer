@@ -67,6 +67,12 @@ Two further results, both negative in the useful sense:
   effect size and the dependence between events, a 100-event sample has about **6% power**. The
   present sample has 86%, and would need roughly 5,300 beat-and-miss events for 80%. It has 6,339.
   Source: [`docs/results/power_analysis.csv`](docs/results/power_analysis.csv).
+- **The answer does not depend on how surprise is defined, though the two definitions barely
+  agree.** Measured against analyst consensus instead of the firm's own history, the same 20-day
+  drift spread is +0.56 pp (clustered p = 0.030) rather than +0.85 pp (p = 0.004) on the 15,152
+  events that have both measures. The two rank-correlate at only 0.20 and put an announcement in the
+  same bucket 43% of the time, so this is closer to an independent replication than a robustness
+  check. See [Validation](#validation).
 
 ## Quickstart
 
@@ -149,6 +155,7 @@ study sat, near the edge of significance.
 | Spread, commission, impact and borrow costs | [`src/esa/costs.py`](src/esa/costs.py) |
 | Daily-marked backtest | [`src/esa/backtest.py`](src/esa/backtest.py) |
 | Rolling decay window | [`src/esa/decay.py`](src/esa/decay.py) |
+| Analyst consensus, for the cross-check only | [`src/esa/consensus.py`](src/esa/consensus.py) |
 
 Companies are bucketed by SUE at ±1σ, which puts about 18% of announcements in each extreme bucket.
 Returns are measured against SPY over identical sessions. Positions are held 20 trading days,
@@ -280,7 +287,31 @@ correcting for it, and gives the same sign: a four-factor alpha of +3.5 bp a day
 spread, t = 2.2. Its momentum loading is +0.25, so a quarter of what a market-only regression would
 have called alpha is a momentum tilt — which is why the momentum factor is in the model.
 
-135 tests, 90% line coverage, run on Python 3.11, 3.12 and 3.13.
+**The result under the other definition of surprise.** The study measures surprise against the
+firm's own earnings history because that can be rebuilt point-in-time. The obvious objection is that
+the market trades against analyst expectations instead, so the whole exercise might be measuring the
+wrong thing. Re-running the drift test against deviation from consensus, on the 15,152 events where
+both measures exist:
+
+| Surprise definition | Beats | Misses | 20-day drift spread | Naive p | Clustered p |
+|---|---:|---:|---:|---:|---:|
+| Standardised unexpected earnings | 2,775 | 2,596 | +0.85 pp | < 0.0001 | 0.0040 |
+| Percent deviation from consensus | 7,280 | 1,458 | +0.56 pp | 0.0122 | 0.0297 |
+
+Same sign, same order of magnitude, significant under both. What is striking is how little the two
+measures agree on: they rank-correlate at 0.20 and assign the same bucket to only 43% of
+announcements. The lopsided consensus counts are the familiar pattern of companies guiding
+expectations down and then clearing them — five beats for every miss, against a near-even split on
+the firm's own history. Two measures this different arriving at the same answer is closer to an
+independent replication than to a robustness check.
+
+The consensus figures are the ones this repository argues should not be trusted for a point-in-time
+study, and using them here does not contradict that: they are a cross-check on a result established
+without them, not an input to it. Source:
+[`docs/results/surprise_definition_comparison.csv`](docs/results/surprise_definition_comparison.csv),
+produced by `python scripts/fetch_consensus.py` followed by `python main.py study`.
+
+145 tests, 89% line coverage, run on Python 3.11, 3.12 and 3.13.
 
 ## Limitations
 
@@ -310,10 +341,13 @@ street excludes. A quarter with a large impairment looks like a huge miss on my 
 been in line on the number the market was watching. This adds noise and probably biases the measured
 effect toward zero.
 
-**I could not use analyst expectations, and that is a real cost.** Surprise relative to consensus is
-economically sharper than surprise relative to last year. The free source is a current snapshot with
-no revision history, so using it would import post-announcement information into the signal. A paid
-point-in-time source — I/B/E/S, Zacks — is the right answer and I do not have one.
+**I could not use analyst expectations as the primary measure, and that is a real cost.** Surprise
+relative to consensus is economically sharper than surprise relative to last year. The free source
+is a current snapshot with no revision history, so using it as the signal would import
+post-announcement information. I use it only as the cross-check in Validation, where a contaminated
+measure agreeing with a clean one is informative and a contaminated measure driving the headline
+would not be. A paid point-in-time source — I/B/E/S, Zacks — is the right answer and I do not have
+one.
 
 **The costs are assumptions, not measurements.** 0.5 bp commission, a 1 bp half-spread, square-root
 impact at 1% participation and 40 bp annual borrow are reasonable for large-cap US equities and are
@@ -347,6 +381,7 @@ rather than assuming it.
 | SEC EDGAR submissions API | 8-K item 2.02 filings with acceptance timestamps | `https://data.sec.gov/submissions/CIK##########.json` | 2026-09-19 | US government work, no copyright; ≤10 requests/second with a descriptive User-Agent |
 | SEC EDGAR XBRL company concept | First-reported diluted EPS per fiscal period | `https://data.sec.gov/api/xbrl/companyconcept/CIK##########/us-gaap/EarningsPerShareDiluted.json` | 2026-09-19 | as above |
 | Yahoo Finance, via `yfinance` | Split- and dividend-adjusted daily opens and closes | `https://finance.yahoo.com` | 2026-09-19 | personal, non-commercial use |
+| Yahoo Finance earnings calendar | Analyst consensus EPS, for the cross-check only | `https://finance.yahoo.com` | 2026-09-19 | personal, non-commercial use; a current snapshot, not point-in-time |
 | Kenneth R. French Data Library | Daily Mkt-RF, SMB, HML, momentum and the one-month bill rate | `https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html` | 2026-07-31 | research use, with attribution |
 | Wikipedia, "List of S&P 500 companies" | Constituent tickers, sectors, CIKs and index join dates | `https://en.wikipedia.org/wiki/List_of_S%26P_500_companies` | 2026-09-19 | CC BY-SA 4.0 |
 
