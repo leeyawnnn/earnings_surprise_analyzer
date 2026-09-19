@@ -1,0 +1,10 @@
+{
+  "artifact": "calendar_time_alpha.csv",
+  "command": "python main.py study",
+  "data_as_of": "2026-09-19",
+  "data_source": "SEC EDGAR (8-K item 2.02, XBRL EPS), Yahoo Finance prices, Ken French factors",
+  "generated_utc": "2026-09-19T06:20:24Z",
+  "git_commit": "c3e7d3e",
+  "n_events": 17724,
+  "rows": 3
+}

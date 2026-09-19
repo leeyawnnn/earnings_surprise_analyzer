@@ -1,0 +1,2 @@
+metric,observed_spread_pct,pooled_sd_pct,n_events_observed,n_seasons,mean_events_per_season,se_naive,se_clustered,variance_inflation,icc_season,design_effect_from_icc,effective_sample_size,n_for_80pct_power_independent,n_for_80pct_power_clustered,achieved_power_clustered,achieved_power_at_100_events
+abdrift_d20,0.7779306885406907,6.962003341228708,6339,59,107.44067796610169,0.17463518981790233,0.25466936734785967,2.126620018405502,0.03236758598347432,4.445227796207097,2980.7863864428673,2514.5154713821553,5347.418938031638,0.8631771122080416,0.057415400213070594

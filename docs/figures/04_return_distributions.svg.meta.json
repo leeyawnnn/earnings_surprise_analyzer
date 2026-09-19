@@ -1,0 +1,8 @@
+{
+  "artifact": "04_return_distributions.svg",
+  "command": "python main.py figures",
+  "data_as_of": "2026-09-19",
+  "data_source": "docs/results/*.csv and output/event_panel.parquet",
+  "generated_utc": "2026-09-19T06:20:25Z",
+  "git_commit": "c3e7d3e"
+}

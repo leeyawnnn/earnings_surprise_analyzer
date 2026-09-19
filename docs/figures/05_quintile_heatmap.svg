@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="864pt" height="540pt" viewBox="0 0 864 540" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 540 
+L 864 540 
+L 864 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 133.92 467.1 
+L 777.5136 467.1 
+L 777.5136 83.7 
+L 133.92 83.7 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g clip-path="url(#pfa9cfc6537)">
+    <image xlink:href="data:image/png;base64,
+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AIE74AQAAxAk/AACAOOEHAAAQJ/wAAADihB8AAECc8AMAAIgTfgAAAHHCDwAAIE74AQAAxAk/AACAOOEHAAAQJ/wAAADihB8AAECc8AMAAIgTfgAAAHHCDwAAIE74AQAAxAk/AACAOOEHAAAQJ/wAAADihB8AAECc8AMAAIgTfgAAAHHCDwAAIE74AQAAxAk/AACAOOEHAAAQJ/wAAADihB8AAECc8AMAAIhb3n/dzt4AQ2wuHZKG/fE0ewKc7e7x4IokfLtfZ0+AIXz8AAAA4oQfAABAnPADAACIE34AAABxwg8AACBO+AEAAMQJPwAAgDjhBwAAECf8AAAA4oQfAABAnPADAACIE34AAABxwg8AACBO+AEAAMQJPwAAgDjhBwAAECf8AAAA4oQfAABAnPADAACIE34AAABxwg8AACBO+AEAAMQJPwAAgDjhBwAAECf8AAAA4oQfAABAnPADAACIE34AAABxwg8AACBO+AEAAMQJPwAAgDjhBwAAECf8AAAA4oQfAABAnPADAACIE34AAABxwg8AACBO+AEAAMQJPwAAgDjhBwAAECf8AAAA4oQfAABAnPADAACIE34AAABxwg8AACBO+AEAAMQJPwAAgDjhBwAAECf8AAAA4oQfAABAnPADAACIE34AAABxwg8AACBO+AEAAMQJPwAAgDjhBwAAECf8AAAA4oQfAABAnPADAACIE34AAABxwg8AACBO+AEAAMQJPwAAgDjhBwAAECf8AAAA4oQfAABAnPADAACIE34AAABxwg8AACBO+AEAAMQJPwAAgDjhBwAAECf8AAAA4oQfAABAnPADAACIE34AAABxwg8AACBO+AEAAMQJPwAAgDjhBwAAECf8AAAA4oQfAABAnPADAACIE34AAABxwg8AACBO+AEAAMQJPwAAgDjhBwAAECf8AAAA4oQfAABAnPADAACIE34AAABxwg8AACBO+AEAAMQJPwAAgDjhBwAAECf8AAAA4oQfAABAnPADAACIE34AAABxwg8AACBO+AEAAMQJPwAAgDjhBwAAECf8AAAA4pabz79mb4AhPt3tXJKE7XqYPQHO9uXn6ookfLh9mD0BhvDxAwAAiBN+AAAAccIPAAAgTvgBAADECT8AAIA44QcAABAn/AAAAOKEHwAAQJzwAwAAiBN+AAAAccIPAAAgTvgBAADECT8AAIA44QcAABAn/AAAAOKEHwAAQJzwAwAAiBN+AAAAccIPAAAgTvgBAADECT8AAIA44QcAABAn/AAAAOKEHwAAQJzwAwAAiBN+AAAAccIPAAAgTvgBAADECT8AAIA44QcAABAn/AAAAOKEHwAAQJzwAwAAiBN+AAAAccIPAAAgTvgBAADECT8AAIA44QcAABAn/AAAAOKEHwAAQJzwAwAAiBN+AAAAccIPAAAgTvgBAADECT8AAIA44QcAABAn/AAAAOKEHwAAQJzwAwAAiBN+AAAAccIPAAAgTvgBAADECT8AAIA44QcAABAn/AAAAOKEHwAAQJzwAwAAiBN+AAAAccIPAAAgTvgBAADECT8AAIA44QcAABAn/AAAAOKEHwAAQJzwAwAAiBN+AAAAccIPAAAgTvgBAADECT8AAIA44QcAABAn/AAAAOKEHwAAQJzwAwAAiBN+AAAAccIPAAAgTvgBAADECT8AAIA44QcAABAn/AAAAOKEHwAAQJzwAwAAiBN+AAAAccIPAAAgTvgBAADECT8AAIA44QcAABAn/AAAAOKEHwAAQJzwAwAAiBN+AAAAccIPAAAgTvgBAADECT8AAIA44QcAABAn/AAAAOKEHwAAQJzwAwAAiBN+AAAAccIPAAAgTvgBAADECT8AAIA44QcAABAn/AAAAOKEHwAAQJzwAwAAiBN+AAAAF21/AKWMNdvxHkTKAAAAAElFTkSuQmCC" id="image0db5523f3a" transform="scale(1 -1) translate(0 -383.76)" x="133.92" y="-83.52" width="643.68" height="383.76"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="mf541f66283" d="M 0 0 
+L 0 3.5 
+" style="stroke: #1a1a1a; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#mf541f66283" x="198.27936" y="467.1" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 10px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1a1a1a" x="198.27936" y="483.62" transform="rotate(-0 198.27936 483.62)">Day 0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#mf541f66283" x="326.99808" y="467.1" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 10px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1a1a1a" x="326.99808" y="483.62" transform="rotate(-0 326.99808 483.62)">Day 1</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#mf541f66283" x="455.7168" y="467.1" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 10px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1a1a1a" x="455.7168" y="483.62" transform="rotate(-0 455.7168 483.62)">Days 1-5</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#mf541f66283" x="584.43552" y="467.1" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 10px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1a1a1a" x="584.43552" y="483.62" transform="rotate(-0 584.43552 483.62)">Days 1-10</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5">
+      <g>
+       <use xlink:href="#mf541f66283" x="713.15424" y="467.1" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 10px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1a1a1a" x="713.15424" y="483.62" transform="rotate(-0 713.15424 483.62)">Days 1-20</text>
+     </g>
+    </g>
+    <g id="text_6">
+     <text style="font-size: 12px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1a1a1a" x="455.7168" y="501.174" transform="rotate(-0 455.7168 501.174)">Horizon after the announcement (trading days)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_6">
+      <defs>
+       <path id="m086c89124d" d="M 0 0 
+L -3.5 0 
+" style="stroke: #1a1a1a; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m086c89124d" x="133.92" y="122.04" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="font-size: 10px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end; fill: #1a1a1a" x="126.92" y="126.8" transform="rotate(-0 126.92 126.8)">Q5 (most positive)</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_7">
+      <g>
+       <use xlink:href="#m086c89124d" x="133.92" y="198.72" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="font-size: 10px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end; fill: #1a1a1a" x="126.92" y="203.48" transform="rotate(-0 126.92 203.48)">Q4</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m086c89124d" x="133.92" y="275.4" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="font-size: 10px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end; fill: #1a1a1a" x="126.92" y="280.16" transform="rotate(-0 126.92 280.16)">Q3</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_9">
+      <g>
+       <use xlink:href="#m086c89124d" x="133.92" y="352.08" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="font-size: 10px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end; fill: #1a1a1a" x="126.92" y="356.84" transform="rotate(-0 126.92 356.84)">Q2</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#m086c89124d" x="133.92" y="428.76" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <text style="font-size: 10px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end; fill: #1a1a1a" x="126.92" y="433.52" transform="rotate(-0 126.92 433.52)">Q1 (most negative)</text>
+     </g>
+    </g>
+    <g id="text_12">
+     <text style="font-size: 12px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1a1a1a" x="36.262437" y="275.4" transform="rotate(-90 36.262437 275.4)">Surprise quintile</text>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 133.92 467.1 
+L 133.92 83.7 
+" style="fill: none; stroke: #1a1a1a; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 133.92 467.1 
+L 777.5136 467.1 
+" style="fill: none; stroke: #1a1a1a; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(182.323344 119.997)">+0.59%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(181.819907 130.734)">n=3,545</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #ffffff" transform="translate(311.042064 119.997)">+0.73%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #ffffff" transform="translate(310.538627 130.734)">n=3,545</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #ffffff" transform="translate(439.760784 119.997)">+0.78%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #ffffff" transform="translate(439.257347 130.734)">n=3,545</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #ffffff" transform="translate(568.479504 119.997)">+0.90%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #ffffff" transform="translate(567.976067 130.734)">n=3,545</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #ffffff" transform="translate(697.198224 119.997)">+1.09%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #ffffff" transform="translate(696.694787 130.734)">n=3,545</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(182.323344 196.677)">+0.34%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(181.819907 207.414)">n=3,545</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(311.042064 196.677)">+0.34%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(310.538627 207.414)">n=3,545</text>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(439.760784 196.677)">+0.36%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(439.257347 207.414)">n=3,545</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(568.479504 196.677)">+0.42%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(567.976067 207.414)">n=3,544</text>
+   </g>
+   <g id="text_22">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(697.198224 196.677)">+0.52%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(696.694787 207.414)">n=3,545</text>
+   </g>
+   <g id="text_23">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(182.323344 273.357)">+0.12%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(181.819907 284.094)">n=3,544</text>
+   </g>
+   <g id="text_24">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(311.042064 273.357)">+0.07%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(310.538627 284.094)">n=3,544</text>
+   </g>
+   <g id="text_25">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(439.760784 273.357)">+0.11%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(439.257347 284.094)">n=3,544</text>
+   </g>
+   <g id="text_26">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(568.479504 273.357)">+0.16%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(567.976067 284.094)">n=3,544</text>
+   </g>
+   <g id="text_27">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(697.198224 273.357)">+0.09%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(696.694787 284.094)">n=3,544</text>
+   </g>
+   <g id="text_28">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(183.272563 350.037)">-0.25%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(181.819907 360.774)">n=3,545</text>
+   </g>
+   <g id="text_29">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(311.991283 350.037)">-0.29%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(310.538627 360.774)">n=3,545</text>
+   </g>
+   <g id="text_30">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(440.710003 350.037)">-0.28%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(439.257347 360.774)">n=3,545</text>
+   </g>
+   <g id="text_31">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(569.428723 350.037)">-0.26%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(567.976067 360.774)">n=3,545</text>
+   </g>
+   <g id="text_32">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(698.147443 350.037)">-0.20%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #1a1a1a" transform="translate(696.694787 360.774)">n=3,545</text>
+   </g>
+   <g id="text_33">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #ffffff" transform="translate(183.272563 426.717)">-0.64%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #ffffff" transform="translate(181.819907 437.454)">n=3,545</text>
+   </g>
+   <g id="text_34">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #ffffff" transform="translate(311.991283 426.717)">-0.68%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #ffffff" transform="translate(310.538627 437.454)">n=3,545</text>
+   </g>
+   <g id="text_35">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #ffffff" transform="translate(440.710003 426.717)">-0.71%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #ffffff" transform="translate(439.257347 437.454)">n=3,545</text>
+   </g>
+   <g id="text_36">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #ffffff" transform="translate(569.428723 426.717)">-0.78%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #ffffff" transform="translate(567.976067 437.454)">n=3,545</text>
+   </g>
+   <g id="text_37">
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #ffffff" transform="translate(698.147443 426.717)">-0.87%</text>
+    <text style="font-size: 9px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #ffffff" transform="translate(696.694787 437.454)">n=3,545</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_5">
+    <path d="M 787.6224 467.1 
+L 806.7924 467.1 
+L 806.7924 83.7 
+L 787.6224 83.7 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="matplotlib.axis_3"/>
+   <g id="matplotlib.axis_4">
+    <g id="ytick_6">
+     <g id="line2d_11">
+      <defs>
+       <path id="m3de8aeb523" d="M 0 0 
+L 3.5 0 
+" style="stroke: #1a1a1a; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m3de8aeb523" x="806.7924" y="451.23781" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_38">
+      <text style="font-size: 10px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #1a1a1a" x="813.7924" y="455.99781" transform="rotate(-0 813.7924 455.99781)">−1.00</text>
+     </g>
+    </g>
+    <g id="ytick_7">
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#m3de8aeb523" x="806.7924" y="407.278358" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_39">
+      <text style="font-size: 10px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #1a1a1a" x="813.7924" y="412.038358" transform="rotate(-0 813.7924 412.038358)">−0.75</text>
+     </g>
+    </g>
+    <g id="ytick_8">
+     <g id="line2d_13">
+      <g>
+       <use xlink:href="#m3de8aeb523" x="806.7924" y="363.318905" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_40">
+      <text style="font-size: 10px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #1a1a1a" x="813.7924" y="368.078905" transform="rotate(-0 813.7924 368.078905)">−0.50</text>
+     </g>
+    </g>
+    <g id="ytick_9">
+     <g id="line2d_14">
+      <g>
+       <use xlink:href="#m3de8aeb523" x="806.7924" y="319.359453" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_41">
+      <text style="font-size: 10px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #1a1a1a" x="813.7924" y="324.119453" transform="rotate(-0 813.7924 324.119453)">−0.25</text>
+     </g>
+    </g>
+    <g id="ytick_10">
+     <g id="line2d_15">
+      <g>
+       <use xlink:href="#m3de8aeb523" x="806.7924" y="275.4" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_42">
+      <text style="font-size: 10px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #1a1a1a" x="813.7924" y="280.16" transform="rotate(-0 813.7924 280.16)">0.00</text>
+     </g>
+    </g>
+    <g id="ytick_11">
+     <g id="line2d_16">
+      <g>
+       <use xlink:href="#m3de8aeb523" x="806.7924" y="231.440547" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_43">
+      <text style="font-size: 10px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #1a1a1a" x="813.7924" y="236.200547" transform="rotate(-0 813.7924 236.200547)">0.25</text>
+     </g>
+    </g>
+    <g id="ytick_12">
+     <g id="line2d_17">
+      <g>
+       <use xlink:href="#m3de8aeb523" x="806.7924" y="187.481095" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_44">
+      <text style="font-size: 10px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #1a1a1a" x="813.7924" y="192.241095" transform="rotate(-0 813.7924 192.241095)">0.50</text>
+     </g>
+    </g>
+    <g id="ytick_13">
+     <g id="line2d_18">
+      <g>
+       <use xlink:href="#m3de8aeb523" x="806.7924" y="143.521642" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_45">
+      <text style="font-size: 10px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #1a1a1a" x="813.7924" y="148.281642" transform="rotate(-0 813.7924 148.281642)">0.75</text>
+     </g>
+    </g>
+    <g id="ytick_14">
+     <g id="line2d_19">
+      <g>
+       <use xlink:href="#m3de8aeb523" x="806.7924" y="99.56219" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_46">
+      <text style="font-size: 10px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #1a1a1a" x="813.7924" y="104.32219" transform="rotate(-0 813.7924 104.32219)">1.00</text>
+     </g>
+    </g>
+    <g id="text_47">
+     <text style="font-size: 12px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1a1a1a" x="854.674213" y="275.4" transform="rotate(-90 854.674213 275.4)">Mean abnormal return (%)</text>
+    </g>
+   </g>
+   <image xlink:href="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAABsAAAIVCAYAAAAgQYQMAAADRUlEQVR4nO3bgY3sQAwCUIyo83f929lcC5EWIS3iFRDk84wzSfbu/z88CCGChMvlMZaE6squtTImwwReLIyxJFQvfdRWdrWVYZX9YM+udZ9x++x7RJA2QRyIINX2jMkwXe0gRusCUXFlbK3sent2vZVdLIyxJJT3jLEwxpLQPUFYW9n1VnaxMMaSsE1toualz1gYY0moruyKbzEXC2MsCdWrEavMgAhS8fH7eiu7WBhjSdjzmYm2qR2IIDWPK8bCGEtC8yBW8QRhbWW3yr5HBKl4n13rbERrz5gMU+2fUc1v5RgLYywJ5ZVdLIyxJFT37GorQ29lrK3sWiu7zUYDOi7y1pa+hXo3NWoru9rKsH8qNSCCtH3mQASpt2coruxiYYwlYS/KTOi60Bvb1BZqHleMhTGWhL0tMCGCtLdyDkSQih9zb5V9jwhS7/EbrauRyTAVjyvWVnar7HtEkPaxzoEI0vaZAxGk/XzNgQjSDqkORJBqZyOTYSo+fl9tZayt7FrfFlzvarxV9j0iSOvZLz5YXCyMsSRsNZrQdaE3tkAstGOBAxGk3kMqao9yV/zIxFgYY0lYZSZEkHpn422f/VzPntbVyGSYPs9TWxlimIvCevaT4+rJhTEXha1GDyJIm/oORJDWMwciSLVnECbDtKX/iweeJxbGWBKaN7W2zxyIIK1nDkSQNkEciCCtZw60XOWlveGx0G4xDkSQ1jMHIki7xTgQQVrPHIgg7VuMAxGk5n2GGOaisAOPh2oXiHZIdSCCtJ45EEHatxgHIkib+g5EkNYzB1qu8tIWiIU+2Of+7xFB6h1Xz358YkAEaQ8WDkSQ1jMHIkjrmQMRpNo7NZNh6l36T+sCUW/PPuuZARGk9cyBCFJzzxDDXBQ29T2IINW+dGEyTNvUDkSQmnuGGOaisFuMBxGkPQw6EEGqPRZos9GBCFJzzxDDXBR2i/FQ7QLRjgUORJB6e/ZsnxkQQWqejYhhLgrNE+SznhnQcZG3tkAsVLypkcNgFnbgsSCCtFuMAxGk9cyBCNJ65kAEqblniGEuCvuk5aHaBaLiB4snF8ZcFNYzDyJIW40ORJDWMwciSPvK5EDLVV7aprbQjnIO0dX4B8znPVpFDmDYAAAAAElFTkSuQmCC" id="imaged60c002bd8" transform="scale(1 -1) translate(0 -383.76)" x="787.68" y="-83.52" width="19.44" height="383.76"/>
+   <g id="LineCollection_1"/>
+  </g>
+  <g id="text_48">
+   <text style="font-weight: 600; font-size: 15px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #1a1a1a" x="47.52" y="29.745" transform="rotate(-0 47.52 29.745)">The gradient across surprise quintiles is monotonic at every horizon, and widens</text>
+  </g>
+  <g id="text_49">
+   <text style="font-size: 11px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #5a5a5a" transform="translate(47.52 52.746)">Mean cumulative abnormal return from the pre-announcement close, by SUE quintile. Cells with fewer than 100 events are</text>
+   <text style="font-size: 11px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #5a5a5a" transform="translate(47.52 65.869)">greyed out. Colour is pinned at zero.</text>
+  </g>
+  <g id="text_50">
+   <text style="font-style: italic; font-size: 8px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #5a5a5a" transform="translate(47.52 522.12)">Source: SEC EDGAR 8-K item 2.02 acceptance timestamps and XBRL us-gaap EPS; prices from Yahoo Finance (split- and dividend-adjusted); factors from the</text>
+   <text style="font-style: italic; font-size: 8px; font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; fill: #5a5a5a" transform="translate(47.52 531.704)">Kenneth R. French Data Library. Data as of 2026-09-19.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pfa9cfc6537">
+   <rect x="133.92" y="83.7" width="643.5936" height="383.4"/>
+  </clipPath>
+ </defs>
+</svg>
