@@ -1,0 +1,13 @@
+# Exact versions used to produce every number and figure committed under docs/.
+# Regenerate with:  pip install -e '.[dev]' && pip freeze
+# The ranges in pyproject.toml are what the package supports; this file is what
+# was actually run. CI installs this lock on the Python 3.12 job.
+# Resolved on Python 3.12, 2026-09-19.
+matplotlib==3.11.2
+numpy==2.5.3
+pandas==3.0.6
+pyarrow==25.0.1
+requests==2.34.2
+scipy==1.18.1
+statsmodels==0.15.0
+yfinance==1.7.0

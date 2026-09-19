@@ -1,0 +1,72 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "earnings-surprise-analyzer"
+version = "0.2.0"
+description = "Event study of post-earnings announcement drift on US equities"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{ name = "Lyonn Lie" }]
+
+dependencies = [
+    "numpy>=1.26,<3",
+    "pandas>=2.2,<4",
+    "scipy>=1.11,<2",
+    "matplotlib>=3.8,<4",
+    "requests>=2.31,<3",
+    "pyarrow>=15",
+    "statsmodels>=0.14,<1",
+    "yfinance>=1.0,<2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "pytest-cov>=5",
+    "ruff>=0.6",
+    "mypy>=1.11",
+    "pandas-stubs",
+    "types-requests",
+    "lxml>=5",
+]
+
+[project.urls]
+Homepage = "https://github.com/leeyawnnn/earnings_surprise_analyzer"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "C4", "RET", "ARG", "PD", "NPY", "RUF"]
+ignore = [
+    "PD901",  # `df` is the conventional name for a DataFrame in this codebase
+    "B905",   # zip(strict=) is noisy on equal-length numpy/pandas iterables
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ARG001", "ARG002"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["src"]
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+no_implicit_optional = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+markers = [
+    "network: test requires live network access (deselected by default in CI)",
+]
+filterwarnings = ["error::RuntimeWarning"]
