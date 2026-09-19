@@ -182,9 +182,7 @@ class TestSUE:
         without = standardized_unexpected_earnings(panel, include_drift=False)
         both = with_drift.dropna(subset=["sue"])
         assert not both.empty
-        assert not np.allclose(
-            both["sue"].to_numpy(), without.loc[both.index, "sue"].to_numpy()
-        )
+        assert not np.allclose(both["sue"].to_numpy(), without.loc[both.index, "sue"].to_numpy())
 
     def test_missing_columns_raise(self) -> None:
         with pytest.raises(ValueError, match="missing columns"):

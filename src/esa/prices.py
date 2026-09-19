@@ -17,21 +17,25 @@ from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 
 from . import config
 
-FIELDS = ("Open", "Close", "Volume")
+FIELDS = ("Open", "Close")
 
 
 @dataclass(frozen=True)
 class PricePanel:
-    """Aligned Open/Close/Volume frames sharing one trading calendar."""
+    """Aligned open and close frames sharing one trading calendar.
+
+    Volume is deliberately absent. The cost model charges market impact at an
+    assumed participation rate rather than a measured one, so storing realised
+    volume would imply a precision the model does not have — and it doubled
+    the size of the committed sample for a column nothing read.
+    """
 
     open: pd.DataFrame
     close: pd.DataFrame
-    volume: pd.DataFrame
 
     @property
     def dates(self) -> pd.DatetimeIndex:
@@ -41,17 +45,9 @@ class PricePanel:
     def tickers(self) -> list[str]:
         return list(self.close.columns)
 
-    def position_of(self, day: pd.Timestamp) -> int:
-        """Index of the first session on or after ``day``.
-
-        Returns ``len(dates)`` when ``day`` is past the end of the calendar,
-        which callers treat as "no tradeable session".
-        """
-        return int(self.dates.searchsorted(pd.Timestamp(day).normalize(), side="left"))
-
     def subset(self, tickers: list[str]) -> PricePanel:
         keep = [t for t in tickers if t in self.close.columns]
-        return PricePanel(self.open[keep], self.close[keep], self.volume[keep])
+        return PricePanel(self.open[keep], self.close[keep])
 
 
 def download_prices(
@@ -92,7 +88,7 @@ def download_prices(
     panel = {f: pd.concat(frames[f], axis=1).sort_index() for f in FIELDS}
     close = panel["Close"]
     aligned = {f: panel[f].reindex(index=close.index, columns=close.columns) for f in FIELDS}
-    out = PricePanel(open=aligned["Open"], close=close, volume=aligned["Volume"])
+    out = PricePanel(open=aligned["Open"], close=close)
     return _drop_empty(out)
 
 
@@ -105,8 +101,10 @@ def _drop_empty(panel: PricePanel) -> PricePanel:
 def save_panel(panel: PricePanel, directory: Path, *, source_as_of: str | None = None) -> None:
     """Write the panel to Parquet with a provenance sidecar."""
     directory.mkdir(parents=True, exist_ok=True)
-    for name, frame in (("open", panel.open), ("close", panel.close), ("volume", panel.volume)):
-        frame.to_parquet(directory / f"{name}.parquet")
+    for name, frame in (("open", panel.open), ("close", panel.close)):
+        # zstd keeps the committed sample small; float price columns barely
+        # compress under the default codec.
+        frame.to_parquet(directory / f"{name}.parquet", compression="zstd")
     config.write_provenance(
         directory / "close.parquet",
         command="python main.py fetch",
@@ -123,22 +121,11 @@ def save_panel(panel: PricePanel, directory: Path, *, source_as_of: str | None =
 def load_panel(directory: Path) -> PricePanel:
     """Read a panel previously written by :func:`save_panel`."""
     frames = {}
-    for name in ("open", "close", "volume"):
+    for name in ("open", "close"):
         path = directory / f"{name}.parquet"
         if not path.exists():
             raise FileNotFoundError(f"missing {path}; run `python main.py fetch` first")
         frame = pd.read_parquet(path)
         frame.index = pd.DatetimeIndex(frame.index).tz_localize(None).normalize()
         frames[name] = frame.sort_index()
-    return PricePanel(open=frames["open"], close=frames["close"], volume=frames["volume"])
-
-
-def forward_return(prices: np.ndarray, start_pos: int, end_pos: int) -> float:
-    """Simple return between two positions of a price array, in percent."""
-    if start_pos < 0 or end_pos >= len(prices):
-        return float("nan")
-    base = prices[start_pos]
-    tip = prices[end_pos]
-    if not np.isfinite(base) or not np.isfinite(tip) or base == 0:
-        return float("nan")
-    return (tip / base - 1.0) * 100.0
+    return PricePanel(open=frames["open"], close=frames["close"])

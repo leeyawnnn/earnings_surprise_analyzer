@@ -9,7 +9,7 @@ from __future__ import annotations
 import json
 import subprocess
 from dataclasses import dataclass, field, replace
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -106,9 +106,6 @@ class StudyConfig:
         return replace(self, **kwargs)  # type: ignore[arg-type]
 
 
-ENTRY_TIMINGS = ("next_open", "next_close")
-
-
 def ensure_dirs() -> None:
     """Create every directory the pipeline writes into."""
     for path in (CACHE_DIR, OUTPUT_DIR, FIGURES_DIR, RESULTS_DIR, UNIVERSE_DIR, SAMPLE_DIR):
@@ -148,7 +145,7 @@ def write_provenance(
         "artifact": artifact.name,
         "command": command,
         "git_commit": git_commit(),
-        "generated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "generated_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "data_source": data_source,
         "data_as_of": as_of,
     }

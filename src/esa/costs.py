@@ -26,6 +26,7 @@ at 8 bp is dead in large caps; one that breaks even at 150 bp has room.
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 
 import numpy as np
@@ -92,7 +93,7 @@ class CostModel:
 
 
 def break_even_cost_bps(
-    evaluate: object,
+    evaluate: Callable[[float], float],
     *,
     lo: float = 0.0,
     hi: float = 1000.0,
@@ -106,15 +107,14 @@ def break_even_cost_bps(
     well posed. Returns ``0.0`` when the strategy does not clear even zero
     cost, and ``inf`` when it survives the whole search range.
     """
-    fn = evaluate  # type: ignore[assignment]
-    if fn(lo) <= 0:  # type: ignore[operator]
+    if evaluate(lo) <= 0:
         return 0.0
-    if fn(hi) > 0:  # type: ignore[operator]
+    if evaluate(hi) > 0:
         return float("inf")
 
     for _ in range(max_iter):
         mid = (lo + hi) / 2.0
-        if fn(mid) > 0:  # type: ignore[operator]
+        if evaluate(mid) > 0:
             lo = mid
         else:
             hi = mid

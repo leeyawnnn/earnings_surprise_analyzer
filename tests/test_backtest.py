@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from conftest import SESSIONS, make_panel, utc
+from conftest import SESSIONS, make_panel
 from esa.backtest import run_backtest
 from esa.config import CostAssumptions, StudyConfig
 from esa.events import build_event_panel
@@ -108,10 +108,10 @@ class TestTwoTradeAccounting:
             closes[k] = 110.0
             if k > 10:
                 opens[k] = 110.0
-        panel = make_panel(
-            {"AAA": closes, "SPY": [100.0] * n}, {"AAA": opens, "SPY": [100.0] * n}
+        panel = make_panel({"AAA": closes, "SPY": [100.0] * n}, {"AAA": opens, "SPY": [100.0] * n})
+        stamp = (
+            (SESSIONS[9] + pd.Timedelta(hours=17)).tz_localize("America/New_York").tz_convert("UTC")
         )
-        stamp = (SESSIONS[9] + pd.Timedelta(hours=17)).tz_localize("America/New_York").tz_convert("UTC")
         events = pd.DataFrame([{"ticker": "AAA", "accepted_utc": stamp, "sue": 2.0}])
         built = build_event_panel(events, panel, windows=(0, 5))
         built["category"] = "Beat"
@@ -138,7 +138,9 @@ class TestTwoTradeAccounting:
         panel = make_panel(
             {"AAA": up, "BBB": flat, "SPY": flat}, {"AAA": up, "BBB": flat, "SPY": flat}
         )
-        stamp = (SESSIONS[9] + pd.Timedelta(hours=17)).tz_localize("America/New_York").tz_convert("UTC")
+        stamp = (
+            (SESSIONS[9] + pd.Timedelta(hours=17)).tz_localize("America/New_York").tz_convert("UTC")
+        )
         events = pd.DataFrame(
             [
                 {"ticker": "AAA", "accepted_utc": stamp, "sue": 2.0},

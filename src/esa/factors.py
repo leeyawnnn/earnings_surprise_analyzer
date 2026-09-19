@@ -89,7 +89,7 @@ def download_factors(cache_dir: Path | None = None, *, timeout: int = 90) -> pd.
         command="python main.py fetch",
         data_source=f"Kenneth R. French Data Library: {FACTORS_FILE}, {MOMENTUM_FILE}",
         as_of=str(merged.index.max().date()),
-        extra={"first_date": str(merged.index.min().date()), "n_days": int(len(merged))},
+        extra={"first_date": str(merged.index.min().date()), "n_days": len(merged)},
     )
     return merged
 

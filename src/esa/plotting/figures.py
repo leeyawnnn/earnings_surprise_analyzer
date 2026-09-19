@@ -88,9 +88,7 @@ def scatter_sue_vs_reaction(
     x = usable["sue"].to_numpy()
     y = usable["abret_d0"].to_numpy()
 
-    fig, (ax, ax_bin) = plt.subplots(
-        1, 2, figsize=style.FIGSIZE, width_ratios=[1.55, 1.0]
-    )
+    fig, (ax, ax_bin) = plt.subplots(1, 2, figsize=style.FIGSIZE, width_ratios=[1.55, 1.0])
 
     ax.scatter(x, y, s=1.4, alpha=0.16, color=style.NEUTRAL, linewidths=0, rasterized=True)
     slope, intercept = np.polyfit(x, y, 1)
@@ -123,7 +121,10 @@ def scatter_sue_vs_reaction(
     # Right panel: the same data, conditioned.
     edges = np.quantile(x, np.linspace(0, 1, n_bins + 1))
     which = np.clip(np.digitize(x, edges[1:-1]), 0, n_bins - 1)
-    centers, medians, err_lo, err_hi = [], [], [], []
+    centers: list[float] = []
+    medians: list[float] = []
+    err_lo: list[float] = []
+    err_hi: list[float] = []
     for b in range(n_bins):
         mask = which == b
         if mask.sum() < 20:
@@ -134,11 +135,11 @@ def scatter_sue_vs_reaction(
         err_lo.append(point - low)
         err_hi.append(high - point)
 
-    centers = np.array(centers)
-    medians = np.array(medians)
+    centre_values = np.array(centers)
+    median_values = np.array(medians)
     ax_bin.errorbar(
-        centers,
-        medians,
+        centre_values,
+        median_values,
         yerr=[np.abs(err_lo), np.abs(err_hi)],
         fmt="o",
         markersize=4,
@@ -148,12 +149,12 @@ def scatter_sue_vs_reaction(
         capsize=2.5,
         alpha=0.95,
     )
-    ax_bin.plot(centers, medians, color=style.MISS, linewidth=1.3, alpha=0.6)
+    ax_bin.plot(centre_values, median_values, color=style.MISS, linewidth=1.3, alpha=0.6)
     ax_bin.axhline(0, color=style.INK, linewidth=0.8)
     ax_bin.set_xlabel("Standardised unexpected earnings (σ)")
     ax_bin.set_ylabel("Median day-0 abnormal return (%)")
     ax_bin.set_title(
-        f"Conditional medians, {len(centers)} equal-count bins",
+        f"Conditional medians, {len(centre_values)} equal-count bins",
         fontsize=style.LABEL_SIZE,
         loc="left",
         color=style.NEUTRAL,
@@ -167,7 +168,8 @@ def scatter_sue_vs_reaction(
     ax_bin.text(
         0.97,
         0.05,
-        f"median moves {medians[-1] - medians[0]:.2f} pp\nfrom the bottom bin to the top",
+        f"median moves {median_values[-1] - median_values[0]:.2f} pp\n"
+        "from the bottom bin to the top",
         transform=ax_bin.transAxes,
         ha="right",
         fontsize=style.ANNOTATION_SIZE,
@@ -211,7 +213,7 @@ def bar_returns_by_bucket(
             his.append(hi - point)
             counts.append(int(good.sum()))
         offset = (j - 1) * width
-        bars = ax.bar(
+        ax.bar(
             positions + offset,
             means,
             width * 0.92,
@@ -229,11 +231,11 @@ def bar_returns_by_bucket(
             capsize=3,
             zorder=4,
         )
-        for bar, value, count in zip(bars, means, counts):
+        for position, value, count in zip(positions + offset, means, counts):
             above = value >= 0
             ax.annotate(
                 f"n={count:,}",
-                (bar.get_x() + bar.get_width() / 2, 0),
+                (position, 0),
                 xytext=(0, -14 if above else 8),
                 textcoords="offset points",
                 ha="center",
@@ -326,7 +328,8 @@ def cumulative_drift_paths(
         fig,
         "After the announcement day the two groups separate by well under a percent",
         "Cumulative abnormal return measured from the close of the first session the market could "
-        "react in, so the announcement jump is excluded. Ribbons are 95% season-clustered bootstrap "
+        "react in, so the announcement jump is excluded. Ribbons are 95% season-clustered "
+        "bootstrap "
         f"intervals. The gap reaches {spread:+.2f} pp after 20 sessions.",
     )
     style.source_note(fig, _source())
@@ -385,7 +388,8 @@ def return_distributions(events: pd.DataFrame, path: Path, *, metric: str = "abd
         ax.text(
             0.985,
             0.93,
-            f"mean gap = {gap:+.2f} pp\nagainst a spread of ±{np.std(usable[metric]):.0f} pp per event\n"
+            f"mean gap = {gap:+.2f} pp\nagainst a spread of ±{np.std(usable[metric]):.0f} pp per "
+            f"event\n"
             "(means on untrimmed groups)",
             transform=ax.transAxes,
             ha="right",
@@ -413,7 +417,11 @@ def return_distributions(events: pd.DataFrame, path: Path, *, metric: str = "abd
 
 
 def sue_quintile_heatmap(
-    events: pd.DataFrame, path: Path, *, windows: tuple[int, ...] = (0, 1, 5, 10, 20), min_n: int = 100
+    events: pd.DataFrame,
+    path: Path,
+    *,
+    windows: tuple[int, ...] = (0, 1, 5, 10, 20),
+    min_n: int = 100,
 ) -> Path:
     """Mean abnormal return by SUE quintile and horizon."""
     style.use_house_style()
@@ -436,14 +444,31 @@ def sue_quintile_heatmap(
         display, cmap=style.DIVERGING, norm=style.diverging_norm(display), aspect="auto"
     )
     ax.set_xticks(range(len(windows)), [WINDOW_LABELS[w] for w in windows])
-    ax.set_yticks(range(len(rows)), [f"{q} ({'most negative' if q == 'Q1' else 'most positive' if q == 'Q5' else 'middle'})" if q in ("Q1", "Q5") else q for q in rows])
+    ax.set_yticks(
+        range(len(rows)),
+        [
+            f"{q} ({'most negative' if q == 'Q1' else 'most positive' if q == 'Q5' else 'middle'})"
+            if q in ("Q1", "Q5")
+            else q
+            for q in rows
+        ],
+    )
     ax.grid(False)
 
     for i in range(len(rows)):
         for j in range(len(windows)):
             if counts[i, j] < min_n:
                 ax.add_patch(plt.Rectangle((j - 0.5, i - 0.5), 1, 1, color="#EDEDED", zorder=2))
-                ax.text(j, i, f"n={counts[i, j]}\ntoo few", ha="center", va="center", fontsize=style.ANNOTATION_SIZE - 1, color=style.NEUTRAL, zorder=3)
+                ax.text(
+                    j,
+                    i,
+                    f"n={counts[i, j]}\ntoo few",
+                    ha="center",
+                    va="center",
+                    fontsize=style.ANNOTATION_SIZE - 1,
+                    color=style.NEUTRAL,
+                    zorder=3,
+                )
                 continue
             shade = abs(values[i, j]) / max(np.nanmax(np.abs(display)), 1e-9)
             ax.text(
@@ -501,7 +526,9 @@ def backtest_equity(
     # 1.3x into the floor, and the strategy's own drawdowns become unreadable.
     # The log axis keeps the 6x gap obvious while leaving both shapes legible.
     ax.plot(thin(net).index, thin(net), color=style.BEAT)
-    ax.plot(thin(gross).index, thin(gross), color=style.NEUTRAL, linewidth=1.2, linestyle=(0, (4, 2)))
+    ax.plot(
+        thin(gross).index, thin(gross), color=style.NEUTRAL, linewidth=1.2, linestyle=(0, (4, 2))
+    )
 
     bench = panel.close.get("SPY")
     if bench is not None:
@@ -573,14 +600,17 @@ def backtest_equity(
     style.titles(
         fig,
         "A measurable effect that does not survive contact with a book",
-        f"Long beats, short misses, {int(metrics.get('n_trades', 0)):,} positions held 20 sessions, "
+        f"Long beats, short misses, {int(metrics.get('n_trades', 0)):,} positions held 20 "
+        f"sessions, "
         f"equal-weighted across whatever is live and marked daily. Net {total:+.1f}% against SPY "
-        f"{bench_total:+.1f}% over the same span, at a Sharpe of {sharpe:.2f} on daily excess returns.",
+        f"{bench_total:+.1f}% over the same span, at a Sharpe of {sharpe:.2f} on daily excess "
+        f"returns.",
     )
     style.source_note(
         fig,
         _source(
-            f"Round-trip cost {metrics.get('round_trip_cost_bps', 0):.0f} bp. Series computed daily, "
+            f"Round-trip cost {metrics.get('round_trip_cost_bps', 0):.0f} bp. Series computed "
+            f"daily, "
             f"drawn every {DRAW_EVERY_N_SESSIONS}th session."
         ),
     )
@@ -597,7 +627,9 @@ def decay_curve(curve: pd.DataFrame, trend: dict[str, float], path: Path) -> Pat
     fig, ax = plt.subplots(figsize=style.FIGSIZE)
     dates = pd.to_datetime(curve["end_date"])
 
-    ax.fill_between(dates, curve["ci_low"], curve["ci_high"], color=style.BEAT, alpha=0.2, linewidth=0)
+    ax.fill_between(
+        dates, curve["ci_low"], curve["ci_high"], color=style.BEAT, alpha=0.2, linewidth=0
+    )
     ax.plot(dates, curve["spread"], color=style.BEAT)
     ax.axhline(0, color=style.INK, linewidth=1.0)
 
@@ -611,7 +643,7 @@ def decay_curve(curve: pd.DataFrame, trend: dict[str, float], path: Path) -> Pat
         fontweight="semibold",
         color=style.BEAT,
     )
-    peak_idx = int(curve["spread"].idxmax())
+    peak_idx = int(curve.index.get_loc(curve["spread"].idxmax()))
     style.callout(
         ax,
         f"peak {curve['spread'].max():+.2f} pp\n({curve['season'].iloc[peak_idx]})",
@@ -627,13 +659,18 @@ def decay_curve(curve: pd.DataFrame, trend: dict[str, float], path: Path) -> Pat
     style.titles(
         fig,
         "Drift strengthened into the early 2020s and has since faded back",
-        f"Beat-minus-Miss cumulative abnormal return over the 20 sessions after the first tradeable "
-        f"close, on a rolling three-year window stepped one earnings season at a time. Band is a 90% "
+        f"Beat-minus-Miss cumulative abnormal return over the 20 sessions after the first "
+        f"tradeable "
+        f"close, on a rolling three-year window stepped one earnings season at a time. Band is a "
+        f"90% "
         f"season-clustered bootstrap interval. Linear trend {slope:+.2f} pp per decade.",
     )
     style.source_note(
         fig,
-        _source("Windows overlap by eleven of twelve seasons, so neighbouring points are not independent."),
+        _source(
+            "Windows overlap by eleven of twelve seasons, so neighbouring points are not "
+            "independent."
+        ),
     )
     fig.subplots_adjust(left=0.075, right=0.975, top=0.835, bottom=0.135)
     return style.save(fig, path)
@@ -663,8 +700,8 @@ def gap_versus_drift(decomposition: pd.DataFrame, path: Path) -> Path:
     values = [p[1] for p in order]
     colors = [p[2] for p in order]
 
-    bars = ax.barh(range(len(values)), values, color=colors, height=0.55, zorder=3)
-    for i, (bar, value) in enumerate(zip(bars, values)):
+    ax.barh(range(len(values)), values, color=colors, height=0.55, zorder=3)
+    for i, value in enumerate(values):
         ax.annotate(
             f"{value:+.2f} pp",
             (value, i),
@@ -698,7 +735,8 @@ def gap_versus_drift(decomposition: pd.DataFrame, path: Path) -> Path:
     style.titles(
         fig,
         "About half the beat-miss spread is gone before anyone can trade it",
-        f"Total spread {total:+.2f} pp, of which {tradeable:+.2f} pp ({share:.0f}%) is reachable at "
+        f"Total spread {total:+.2f} pp, of which {tradeable:+.2f} pp ({share:.0f}%) is reachable "
+        f"at "
         f"the earliest fillable price. n = {int(row['n']):,} beat and miss announcements.",
     )
     style.source_note(fig, _source())
@@ -720,7 +758,12 @@ def breakeven_cost(curve: pd.DataFrame, breakeven: dict[str, float], path: Path)
     fig, ax = plt.subplots(figsize=style.FIGSIZE)
 
     series = [
-        ("next_open", "net_total_return_pct_next_open", style.OKABE_ITO["green"], "Enter at the next open"),
+        (
+            "next_open",
+            "net_total_return_pct_next_open",
+            style.OKABE_ITO["green"],
+            "Enter at the next open",
+        ),
         ("next_close", "net_total_return_pct_next_close", style.BEAT, "Enter at the next close"),
     ]
     x_max = 60.0
@@ -745,7 +788,9 @@ def breakeven_cost(curve: pd.DataFrame, breakeven: dict[str, float], path: Path)
         point = breakeven.get(key, float("nan"))
         if np.isfinite(point) and point > 0:
             ax.plot([point], [0.0], marker="D", markersize=6, color=color, zorder=5)
-            ax.vlines(point, 0, drawn[column].iloc[0] * 0.42, color=color, linestyle=":", linewidth=1.1)
+            ax.vlines(
+                point, 0, drawn[column].iloc[0] * 0.42, color=color, linestyle=":", linewidth=1.1
+            )
             ax.annotate(
                 f"break-even\n{point:.0f} bp",
                 (point, drawn[column].iloc[0] * 0.42),
@@ -777,14 +822,19 @@ def breakeven_cost(curve: pd.DataFrame, breakeven: dict[str, float], path: Path)
     style.titles(
         fig,
         "The edge clears a realistic cost assumption, and not by much",
-        "Total net return of the long-beat/short-miss book against an assumed round-trip cost, with "
+        "Total net return of the long-beat/short-miss book against an assumed round-trip cost, "
+        "with "
         "everything else held fixed. Borrow on the short leg is charged separately and is not part "
-        f"of the horizontal axis. Curves are truncated at {x_max:.0f} bp, beyond which both are near "
+        f"of the horizontal axis. Curves are truncated at {x_max:.0f} bp, beyond which both are "
+        f"near "
         "total loss.",
     )
     style.source_note(
         fig,
-        _source("A 1-3 bp quoted spread in S&P 500 names implies roughly 4-8 bp round trip including commission and impact."),
+        _source(
+            "A 1-3 bp quoted spread in S&P 500 names implies roughly 4-8 bp round trip including "
+            "commission and impact."
+        ),
     )
     fig.subplots_adjust(left=0.085, right=0.975, top=0.815, bottom=0.135)
     return style.save(fig, path)

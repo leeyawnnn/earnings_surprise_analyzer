@@ -33,8 +33,7 @@ def make_panel(
     opens = opens or {t: list(v) for t, v in closes.items()}
     close = pd.DataFrame(closes, index=sessions)
     open_ = pd.DataFrame(opens, index=sessions).reindex(columns=close.columns)
-    volume = pd.DataFrame(1e7, index=sessions, columns=close.columns)
-    return PricePanel(open=open_, close=close, volume=volume)
+    return PricePanel(open=open_, close=close)
 
 
 def utc(stamp: str) -> pd.Timestamp:

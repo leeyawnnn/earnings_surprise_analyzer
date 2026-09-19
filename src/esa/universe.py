@@ -71,7 +71,10 @@ def snapshot_sp500(dest: Path, *, timeout: int = 60) -> pd.DataFrame:
         command="python main.py snapshot-universe",
         data_source=SP500_TABLE_URL,
         as_of=date.today().isoformat(),
-        extra={"n_constituents": int(len(frame)), "n_missing_date_added": int(frame["date_added"].isna().sum())},
+        extra={
+            "n_constituents": len(frame),
+            "n_missing_date_added": int(frame["date_added"].isna().sum()),
+        },
     )
     return frame
 

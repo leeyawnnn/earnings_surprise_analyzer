@@ -23,10 +23,7 @@ import pandas as pd
 
 from .inference import SeasonStats
 
-
-def season_order(events: pd.DataFrame, cluster: str = "season") -> np.ndarray:
-    """Sorted unique season labels, e.g. ``["2012Q1", "2012Q2", ...]``."""
-    return np.array(sorted(events[cluster].dropna().unique()))
+COLUMNS = ["season", "end_date", "spread", "ci_low", "ci_high", "n_events", "n_beat", "n_miss"]
 
 
 def rolling_spread(
@@ -37,7 +34,7 @@ def rolling_spread(
     cluster: str = "season",
     n_boot: int = 2_000,
     seed: int = 0,
-    min_events: int = 200,
+    min_events: int = 50,
 ) -> pd.DataFrame:
     """Beat-minus-Miss spread over a rolling window, with a bootstrap band.
 
@@ -45,15 +42,17 @@ def rolling_spread(
     test is, so the band widens where the sample thins rather than pretending
     to a precision the window does not have.
 
+    ``min_events`` skips a window too thin to say anything. It is set low
+    enough that it never binds on the full sample — the thinnest real window
+    holds several hundred events — and exists for reduced runs.
+
     Returns one row per window: the last season it covers, the point estimate,
     the 5th and 95th bootstrap percentiles and the event count.
     """
     stats_ = SeasonStats.build(events, metric, cluster)
     seasons = stats_.keys
     if len(seasons) < window_seasons:
-        return pd.DataFrame(
-            columns=["season", "end_date", "spread", "ci_low", "ci_high", "n_events", "n_beat", "n_miss"]
-        )
+        return pd.DataFrame(columns=COLUMNS)
 
     rng = np.random.default_rng(seed)
     rows = []
@@ -67,7 +66,7 @@ def rolling_spread(
         picks = window[rng.integers(0, window_seasons, size=(n_boot, window_seasons))]
         draws = stats_.spread_many(picks)
         draws = draws[np.isfinite(draws)]
-        lo, hi = (np.percentile(draws, [5, 95]) if len(draws) else (np.nan, np.nan))
+        lo, hi = np.percentile(draws, [5, 95]) if len(draws) else (np.nan, np.nan)
         label = str(seasons[stop - 1])
         rows.append(
             {
@@ -81,7 +80,7 @@ def rolling_spread(
                 "n_miss": int(n_miss),
             }
         )
-    return pd.DataFrame(rows)
+    return pd.DataFrame(rows, columns=COLUMNS)
 
 
 def _season_end(label: str) -> pd.Timestamp:
@@ -98,6 +97,8 @@ def trend_test(curve: pd.DataFrame) -> dict[str, float]:
     how many percentage points a decade of calendar time is associated with,
     which is the number the decay figure is really about.
     """
+    if "spread" not in curve.columns:
+        return {"slope_pp_per_decade": float("nan"), "first": float("nan"), "last": float("nan")}
     usable = curve.dropna(subset=["spread"]).copy()
     if len(usable) < 3:
         return {"slope_pp_per_decade": float("nan"), "first": float("nan"), "last": float("nan")}

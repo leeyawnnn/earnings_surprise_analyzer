@@ -33,20 +33,20 @@ INTRADAY = "intraday"
 AFTER_CLOSE = "after_close"
 
 
-def classify_timing(accepted_utc: pd.Series | pd.Timestamp) -> pd.Series | str:
-    """Label an acceptance timestamp as before-open, intraday or after-close.
+def classify_one(accepted_utc: pd.Timestamp) -> str:
+    """Label a single acceptance timestamp.
 
     EDGAR stamps acceptance in UTC, so the conversion to Eastern has to happen
     before the comparison — an Apple release at 20:30 UTC is 16:30 in New York
     and is after-close, not mid-afternoon.
     """
-    if isinstance(accepted_utc, pd.Timestamp):
-        local = accepted_utc.tz_convert(EASTERN)
-        return _label(local.time())
+    return _label(pd.Timestamp(accepted_utc).tz_convert(EASTERN).time())
 
+
+def classify_timing(accepted_utc: pd.Series) -> pd.Series:
+    """Label a series of acceptance timestamps. See :func:`classify_one`."""
     local = pd.to_datetime(accepted_utc, utc=True).dt.tz_convert(EASTERN)
-    clock = local.dt.time
-    return pd.Series([_label(t) for t in clock], index=accepted_utc.index, dtype="object")
+    return pd.Series([_label(t) for t in local.dt.time], index=accepted_utc.index, dtype="object")
 
 
 def _label(clock: time) -> str:
@@ -57,9 +57,7 @@ def _label(clock: time) -> str:
     return AFTER_CLOSE
 
 
-def reaction_positions(
-    announced_et: pd.Series, timing: pd.Series, panel: PricePanel
-) -> np.ndarray:
+def reaction_positions(announced_et: pd.Series, timing: pd.Series, panel: PricePanel) -> np.ndarray:
     """Index of the first session in which the market can react to each release.
 
     A release before the opening bell is absorbed by that same session. One
@@ -75,8 +73,7 @@ def reaction_positions(
     on_a_session = np.zeros(len(pos), dtype=bool)
     in_range = pos < len(dates)
     on_a_session[in_range] = dates[pos[in_range]].to_numpy() == announced_day[in_range].to_numpy()
-    pos = pos + (is_after_close & on_a_session).astype(int)
-    return pos
+    return pos + (is_after_close & on_a_session).astype(int)
 
 
 def entry_position_column(entry_timing: str) -> str:
@@ -95,9 +92,7 @@ def entry_timestamp(session: pd.Timestamp, entry_timing: str) -> pd.Timestamp:
     return naive.tz_localize(EASTERN).tz_convert("UTC")
 
 
-def assert_no_lookahead(
-    announced_utc: pd.Series, sessions: pd.Series, entry_timing: str
-) -> None:
+def assert_no_lookahead(announced_utc: pd.Series, sessions: pd.Series, entry_timing: str) -> None:
     """Fail loudly if any fill would have happened before its announcement.
 
     This is the guard that matters most in the repo. Every other bug produces
@@ -211,7 +206,9 @@ def build_event_panel(
         # day the market gaps up a percent, an unadjusted gap of +1% is not a
         # reaction to anything.
         if bench_open is not None and bench is not None:
-            frame["abgap_ret"] = frame["gap_ret"] - (bench_open[rpos] / bench[rpos - 1] - 1.0) * 100.0
+            frame["abgap_ret"] = (
+                frame["gap_ret"] - (bench_open[rpos] / bench[rpos - 1] - 1.0) * 100.0
+            )
             frame["abopen_to_close_ret"] = (
                 frame["open_to_close_ret"] - (bench[rpos] / bench_open[rpos] - 1.0) * 100.0
             )
@@ -288,10 +285,8 @@ def abnormal_return_matrix(
             valid = target < len(close)
             tip = np.where(valid, close_matrix[np.minimum(target, len(close) - 1), codes], np.nan)
             raw = (tip / base - 1.0) * 100.0
-            if base_bench is not None:
-                tip_bench = np.where(
-                    valid, bench[np.minimum(target, len(close) - 1)], np.nan
-                )
+            if bench is not None and base_bench is not None:
+                tip_bench = np.where(valid, bench[np.minimum(target, len(close) - 1)], np.nan)
                 raw = raw - (tip_bench / base_bench - 1.0) * 100.0
             out[:, w] = np.where(valid, raw, np.nan)
     return out

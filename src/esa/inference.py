@@ -179,7 +179,15 @@ def block_bootstrap_spread(
     stats_ = SeasonStats.build(usable, metric, cluster)
     if stats_.n_clusters < 2:
         return TestResult(
-            "Beat - Miss", metric, np.nan, np.nan, np.nan, np.nan, 0, stats_.n_clusters, "block bootstrap"
+            "Beat - Miss",
+            metric,
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
+            0,
+            stats_.n_clusters,
+            "block bootstrap",
         )
 
     point = stats_.spread(np.arange(stats_.n_clusters))
@@ -234,7 +242,9 @@ def wild_cluster_bootstrap(
     usable = events.dropna(subset=[metric])
     usable = usable[usable["category"].isin(["Beat", "Miss"])]
     if usable.empty:
-        return TestResult("Beat - Miss", metric, np.nan, np.nan, np.nan, np.nan, 0, 0, "wild cluster bootstrap")
+        return TestResult(
+            "Beat - Miss", metric, np.nan, np.nan, np.nan, np.nan, 0, 0, "wild cluster bootstrap"
+        )
 
     y = usable[metric].to_numpy(dtype=float)
     beat = (usable["category"] == "Beat").to_numpy(dtype=float)
@@ -242,7 +252,17 @@ def wild_cluster_bootstrap(
     codes, keys = pd.factorize(usable[cluster])
     n_clusters = len(keys)
     if n_clusters < 2:
-        return TestResult("Beat - Miss", metric, np.nan, np.nan, np.nan, np.nan, len(y), n_clusters, "wild cluster bootstrap")
+        return TestResult(
+            "Beat - Miss",
+            metric,
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
+            len(y),
+            n_clusters,
+            "wild cluster bootstrap",
+        )
 
     xtx_inv = np.linalg.inv(x.T @ x)
     projector = xtx_inv @ x.T
@@ -261,7 +281,9 @@ def wild_cluster_bootstrap(
         np.add.at(s0, codes, resid)
         np.add.at(s1, codes, resid * beat[:, None])
         variance = adjust * (
-            b**2 * (s0**2).sum(axis=0) + 2 * b * c * (s0 * s1).sum(axis=0) + c**2 * (s1**2).sum(axis=0)
+            b**2 * (s0**2).sum(axis=0)
+            + 2 * b * c * (s0 * s1).sum(axis=0)
+            + c**2 * (s1**2).sum(axis=0)
         )
         se = np.sqrt(np.maximum(variance, 0.0))
         with np.errstate(invalid="ignore", divide="ignore"):
@@ -297,7 +319,7 @@ def wild_cluster_bootstrap(
         std_error=se_point,
         statistic=t_point,
         p_value=max(p_val, 1.0 / (len(t_star) + 1)),
-        n_obs=int(len(y)),
+        n_obs=len(y),
         n_clusters=n_clusters,
         method=f"wild cluster bootstrap-t by {cluster}, {len(t_star)} draws",
         ci_low=point - 1.96 * se_point,
@@ -409,8 +431,8 @@ def calendar_time_alpha(
         std_error=float(model.bse[0]),
         statistic=float(model.tvalues[0]),
         p_value=float(model.pvalues[0]),
-        n_obs=int(len(joined)),
-        n_clusters=int(len(joined)),
+        n_obs=len(joined),
+        n_clusters=len(joined),
         method=f"calendar-time OLS on {'+'.join(used)}, Newey-West {lags} lags",
         ci_low=float(model.conf_int()[0][0]),
         ci_high=float(model.conf_int()[0][1]),
@@ -453,7 +475,9 @@ def intra_cluster_correlation(events: pd.DataFrame, metric: str, cluster: str = 
     n = float(sizes.sum())
 
     ss_between = float(np.sum(sizes * (means - grand) ** 2))
-    ss_within = float(np.sum((usable[metric].to_numpy() - usable[cluster].map(grouped.mean()).to_numpy()) ** 2))
+    ss_within = float(
+        np.sum((usable[metric].to_numpy() - usable[cluster].map(grouped.mean()).to_numpy()) ** 2)
+    )
     ms_between = ss_between / (k - 1)
     ms_within = ss_within / max(n - k, 1)
     m0 = (n - float(np.sum(sizes**2)) / n) / (k - 1)

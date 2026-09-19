@@ -155,7 +155,14 @@ class TestEpsFacts:
 
 
 def _fact(start: str, end: str, val: float, filed: str) -> dict[str, object]:
-    return {"cik": 1, "tag": "EarningsPerShareDiluted", "start": start, "end": end, "val": val, "filed": filed}
+    return {
+        "cik": 1,
+        "tag": "EarningsPerShareDiluted",
+        "start": start,
+        "end": end,
+        "val": val,
+        "filed": filed,
+    }
 
 
 def _facts(rows: list[dict[str, object]]) -> pd.DataFrame:

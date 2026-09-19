@@ -167,7 +167,9 @@ def plausible_eps_mask(
     return pd.Series(~(ratio > max_yield), index=events.index).fillna(True)
 
 
-def build_events(raw: RawData, cfg: StudyConfig, *, verbose: bool = True) -> tuple[pd.DataFrame, dict[str, int]]:
+def build_events(
+    raw: RawData, cfg: StudyConfig, *, verbose: bool = True
+) -> tuple[pd.DataFrame, dict[str, int]]:
     """Assemble the event panel and a record of what each filter removed."""
     audit: dict[str, int] = {}
 
@@ -189,7 +191,12 @@ def build_events(raw: RawData, cfg: StudyConfig, *, verbose: bool = True) -> tup
     audit["after_sue_required"] = len(matched)
 
     # Guard 2: the whole forecast must have been on file before the release.
-    announced_day = matched["accepted_utc"].dt.tz_convert("America/New_York").dt.tz_localize(None).dt.normalize()
+    announced_day = (
+        matched["accepted_utc"]
+        .dt.tz_convert("America/New_York")
+        .dt.tz_localize(None)
+        .dt.normalize()
+    )
     known = matched["history_known_by"].notna() & (matched["history_known_by"] < announced_day)
     matched = matched[known]
     audit["after_point_in_time_guard"] = len(matched)
@@ -232,10 +239,12 @@ def save_events(panel: pd.DataFrame, cfg: StudyConfig, out_dir: Path | None = No
     config.write_provenance(
         path,
         command="python main.py study",
-        data_source="SEC EDGAR 8-K item 2.02 and XBRL us-gaap:EarningsPerShareDiluted; Yahoo Finance prices",
+        data_source=(
+            "SEC EDGAR 8-K item 2.02 and XBRL us-gaap:EarningsPerShareDiluted; Yahoo Finance prices"
+        ),
         as_of=cfg.end_date,
         extra={
-            "n_events": int(len(panel)),
+            "n_events": len(panel),
             "n_tickers": int(panel["ticker"].nunique()),
             "first_event": str(panel["announcement_date"].min().date()),
             "last_event": str(panel["announcement_date"].max().date()),

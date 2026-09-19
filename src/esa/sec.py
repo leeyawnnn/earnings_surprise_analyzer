@@ -35,7 +35,9 @@ from . import config
 
 SUBMISSIONS_URL = "https://data.sec.gov/submissions/CIK{cik:010d}.json"
 SUBMISSIONS_PAGE_URL = "https://data.sec.gov/submissions/{name}"
-COMPANY_CONCEPT_URL = "https://data.sec.gov/api/xbrl/companyconcept/CIK{cik:010d}/us-gaap/{tag}.json"
+COMPANY_CONCEPT_URL = (
+    "https://data.sec.gov/api/xbrl/companyconcept/CIK{cik:010d}/us-gaap/{tag}.json"
+)
 
 #: 8-K item number for "Results of Operations and Financial Condition".
 EARNINGS_ITEM = "2.02"
@@ -81,7 +83,9 @@ class SecClient:
             time.sleep(self.min_interval_s - elapsed)
         self._last_request = time.monotonic()
 
-    def get_json(self, url: str, cache_key: str, *, use_cache: bool = True) -> dict[str, Any] | None:
+    def get_json(
+        self, url: str, cache_key: str, *, use_cache: bool = True
+    ) -> dict[str, Any] | None:
         """Fetch and cache a JSON document. ``None`` means EDGAR has no such document."""
         path = self.cache_dir / f"{cache_key}.json"
         if use_cache and path.exists():
@@ -108,7 +112,9 @@ class SecClient:
             path.write_text(response.text)
             return response.json()
 
-        raise RuntimeError(f"EDGAR request failed after {self.max_retries} attempts: {url}") from last_error
+        raise RuntimeError(
+            f"EDGAR request failed after {self.max_retries} attempts: {url}"
+        ) from last_error
 
     # ── announcements ────────────────────────────────────────────────────
 
@@ -161,7 +167,9 @@ class SecClient:
                 "cik": cik,
                 "accession": hits["accessionNumber"].to_numpy(),
                 "filing_date": pd.to_datetime(hits["filingDate"]).to_numpy(),
-                "accepted_utc": pd.to_datetime(hits["acceptanceDateTime"], utc=True, format="ISO8601").to_numpy(),
+                "accepted_utc": pd.to_datetime(
+                    hits["acceptanceDateTime"], utc=True, format="ISO8601"
+                ).to_numpy(),
             }
         )
         return out.drop_duplicates("accession").sort_values("accepted_utc").reset_index(drop=True)

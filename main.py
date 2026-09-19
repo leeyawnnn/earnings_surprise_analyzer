@@ -25,7 +25,9 @@ from esa.plotting import figures
 def _print_headline(results: study.StudyResults) -> None:
     events = results.events
     print()
-    print(f"  events            {len(events):,} announcements, {events['ticker'].nunique()} companies")
+    print(
+        f"  events            {len(events):,} announcements, {events['ticker'].nunique()} companies"
+    )
     print(
         f"  period            {events['announcement_date'].min():%Y-%m-%d} to "
         f"{events['announcement_date'].max():%Y-%m-%d}"
@@ -35,7 +37,8 @@ def _print_headline(results: study.StudyResults) -> None:
     headline = results.tests[results.tests["metric"] == "abdrift_d20"]
     for _, row in headline.iterrows():
         print(
-            f"  {row['method'][:46]:<46} spread {row['estimate']:+.3f} pp   p = {row['p_value']:.4f}"
+            f"  {row['method'][:46]:<46} spread {row['estimate']:+.3f} pp"
+            f"   p = {row['p_value']:.4f}"
         )
     print()
     for _, row in results.backtest_summary.iterrows():

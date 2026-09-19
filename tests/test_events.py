@@ -14,6 +14,7 @@ from esa.events import (
     abnormal_return_matrix,
     assert_no_lookahead,
     build_event_panel,
+    classify_one,
     classify_timing,
     entry_position_column,
     entry_timestamp,
@@ -37,7 +38,7 @@ class TestClassifyTiming:
         ],
     )
     def test_boundaries(self, eastern: str, expected: str) -> None:
-        assert classify_timing(utc(eastern)) == expected
+        assert classify_one(utc(eastern)) == expected
 
     def test_summer_and_winter_offsets_agree(self) -> None:
         """16:30 New York is after the close in both July and January.
@@ -45,8 +46,8 @@ class TestClassifyTiming:
         The UTC offset differs by an hour across daylight saving, so a naive
         comparison against the raw UTC timestamp gets one of these wrong.
         """
-        assert classify_timing(utc("2020-07-15 16:30")) == AFTER_CLOSE
-        assert classify_timing(utc("2020-01-15 16:30")) == AFTER_CLOSE
+        assert classify_one(utc("2020-07-15 16:30")) == AFTER_CLOSE
+        assert classify_one(utc("2020-01-15 16:30")) == AFTER_CLOSE
 
     def test_series_input(self) -> None:
         stamps = pd.Series([utc("2020-02-03 07:00"), utc("2020-02-03 17:00")])
@@ -160,9 +161,9 @@ def _mixed_events() -> pd.DataFrame:
             rows.append(
                 {
                     "ticker": "AAA",
-                    "accepted_utc": (SESSIONS[day] + pd.Timedelta(hours=offset)).tz_localize(
-                        "America/New_York"
-                    ).tz_convert("UTC"),
+                    "accepted_utc": (SESSIONS[day] + pd.Timedelta(hours=offset))
+                    .tz_localize("America/New_York")
+                    .tz_convert("UTC"),
                     "sue": float(i - 1.5),
                 }
             )
@@ -242,7 +243,13 @@ class TestReturnWindows:
         panel = make_panel()
         late = SESSIONS[-2] + pd.Timedelta(hours=17)
         events = pd.DataFrame(
-            [{"ticker": "AAA", "accepted_utc": late.tz_localize("America/New_York").tz_convert("UTC"), "sue": 1.0}]
+            [
+                {
+                    "ticker": "AAA",
+                    "accepted_utc": late.tz_localize("America/New_York").tz_convert("UTC"),
+                    "sue": 1.0,
+                }
+            ]
         )
         assert build_event_panel(events, panel, windows=(0, 20)).empty
 

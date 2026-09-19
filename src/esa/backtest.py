@@ -44,7 +44,7 @@ class BacktestResult:
 
     daily: pd.DataFrame
     trades: pd.DataFrame
-    metrics: dict[str, float] = field(default_factory=dict)
+    metrics: dict[str, float | str] = field(default_factory=dict)
 
 
 def _position_windows(
@@ -66,7 +66,9 @@ def _position_windows(
     return tradeable[tradeable["exit_pos"] < n_sessions].reset_index(drop=True)
 
 
-def _daily_returns(panel: PricePanel, entry_timing: str) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+def _daily_returns(
+    panel: PricePanel, entry_timing: str
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Three return matrices: full session, open-to-close, and previous-close-to-open."""
     close = panel.close.to_numpy(dtype=float)
     open_ = panel.open.to_numpy(dtype=float)
@@ -155,7 +157,6 @@ def run_backtest(
 
     side = positions["side"].to_numpy()
     col = positions["col"].to_numpy()
-    entry_pos = positions["entry_pos"].to_numpy()
     exit_pos = positions["exit_pos"].to_numpy()
 
     active: dict[int, float] = {}  # position id -> signed weight held into today
@@ -232,7 +233,7 @@ def run_backtest(
     trades = _trade_log(positions, panel, dates, model, cfg, entry_timing)
 
     metrics = compute_metrics(daily.loc[traded_days], trades, panel, model)
-    metrics["entry_timing_next_open"] = float(entry_timing == "next_open")
+    metrics["entry_timing"] = entry_timing
     return BacktestResult(daily=daily, trades=trades, metrics=metrics)
 
 
@@ -243,7 +244,7 @@ def compute_metrics(
     model: CostModel,
     *,
     risk_free: pd.Series | None = None,
-) -> dict[str, float]:
+) -> dict[str, float | str]:
     """Headline performance statistics, all computed on daily marks.
 
     ``risk_free`` is the daily simple bill rate. When supplied, Sharpe and
@@ -257,7 +258,8 @@ def compute_metrics(
     net = daily["net_ret"].fillna(0.0)
     gross = daily["gross_ret"].fillna(0.0)
     equity = float((1.0 + net).prod())
-    years = max((daily.index[-1] - daily.index[0]).days / 365.25, 1e-9)
+    span = pd.Timestamp(daily.index[-1]) - pd.Timestamp(daily.index[0])
+    years = max(span.days / 365.25, 1e-9)
 
     excess = net - risk_free.reindex(daily.index).fillna(0.0) if risk_free is not None else net
     vol = float(net.std(ddof=1) * np.sqrt(TRADING_DAYS_PER_YEAR))
@@ -276,8 +278,8 @@ def compute_metrics(
     curve = (1.0 + net).cumprod()
     peak = curve.cummax()
     drawdown = curve / peak - 1.0
-    trough = drawdown.idxmin()
-    peak_date = curve.loc[:trough].idxmax()
+    trough = pd.Timestamp(drawdown.idxmin())
+    peak_date = pd.Timestamp(curve.loc[:trough].idxmax())
 
     wins = trades["net_ret_pct"] > 0
     gross_profit = float(trades.loc[wins, "net_ret_pct"].sum())
@@ -301,11 +303,17 @@ def compute_metrics(
         "sharpe": sharpe,
         "sortino": sortino,
         "max_drawdown_pct": float(drawdown.min()) * 100.0,
-        "max_drawdown_peak": peak_date,
-        "max_drawdown_trough": trough,
+        # Dates as ISO strings: the block is written straight to CSV, and a
+        # dict of floats with two timestamps in it is awkward everywhere else.
+        "max_drawdown_peak": peak_date.date().isoformat(),
+        "max_drawdown_trough": trough.date().isoformat(),
         "hit_rate_pct": float(wins.mean()) * 100.0,
-        "avg_win_pct": float(trades.loc[wins, "net_ret_pct"].mean()) if wins.any() else float("nan"),
-        "avg_loss_pct": float(trades.loc[~wins, "net_ret_pct"].mean()) if (~wins).any() else float("nan"),
+        "avg_win_pct": float(trades.loc[wins, "net_ret_pct"].mean())
+        if wins.any()
+        else float("nan"),
+        "avg_loss_pct": float(trades.loc[~wins, "net_ret_pct"].mean())
+        if (~wins).any()
+        else float("nan"),
         "profit_factor": gross_profit / gross_loss if gross_loss > 0 else float("inf"),
         "ann_turnover_x": float(daily["turnover"].mean() * TRADING_DAYS_PER_YEAR),
         "exposure_pct": float((daily["n_long"] + daily["n_short"] > 0).mean()) * 100.0,
@@ -333,7 +341,8 @@ def net_return_at_cost(
         borrow_bps_annual=cfg.costs.borrow_bps_annual,
     )
     result = run_backtest(events, panel, cfg, costs=assumptions, entry_timing=entry_timing)
-    return result.metrics.get("total_return_pct", float("nan"))
+    total = result.metrics.get("total_return_pct", float("nan"))
+    return float(total) if isinstance(total, (int, float)) else float("nan")
 
 
 def cost_sweep(
@@ -350,9 +359,18 @@ def cost_sweep(
     so the marked point on the figure and the number in the README come from
     one calculation.
     """
-    grid = grid if grid is not None else np.array([0, 5, 10, 20, 30, 50, 75, 100, 150, 200], dtype=float)
+    grid = (
+        grid
+        if grid is not None
+        else np.array([0, 5, 10, 20, 30, 50, 75, 100, 150, 200], dtype=float)
+    )
     rows = [
-        {"round_trip_bps": float(bps), "net_total_return_pct": net_return_at_cost(events, panel, cfg, float(bps), entry_timing=entry_timing)}
+        {
+            "round_trip_bps": float(bps),
+            "net_total_return_pct": net_return_at_cost(
+                events, panel, cfg, float(bps), entry_timing=entry_timing
+            ),
+        }
         for bps in grid
     ]
     breakeven = break_even_cost_bps(

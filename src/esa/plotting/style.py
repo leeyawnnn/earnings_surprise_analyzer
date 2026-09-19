@@ -159,7 +159,14 @@ def source_note(fig: Figure, text: str) -> None:
     """Provenance footer, bottom left, 8pt italic, wrapped to the canvas."""
     wrapped = textwrap.fill(text, SOURCE_WRAP)
     fig.text(
-        0.055, 0.012, wrapped, fontsize=SOURCE_SIZE, style="italic", color=NEUTRAL, ha="left", va="bottom"
+        0.055,
+        0.012,
+        wrapped,
+        fontsize=SOURCE_SIZE,
+        style="italic",
+        color=NEUTRAL,
+        ha="left",
+        va="bottom",
     )
 
 
@@ -180,7 +187,13 @@ def callout(
         color=color,
         ha="left",
         va="center",
-        arrowprops={"arrowstyle": "-", "color": color, "linewidth": 0.9, "shrinkA": 0, "shrinkB": 4},
+        arrowprops={
+            "arrowstyle": "-",
+            "color": color,
+            "linewidth": 0.9,
+            "shrinkA": 0,
+            "shrinkB": 4,
+        },
     )
 
 
@@ -199,9 +212,7 @@ def diverging_norm(values: np.ndarray) -> TwoSlopeNorm:
 
 #: Blue-to-vermillion through near-white, built from the Okabe-Ito endpoints so
 #: the heatmap shares the palette the rest of the repo uses.
-DIVERGING = LinearSegmentedColormap.from_list(
-    "okabe_diverging", [MISS, "#F2EFEA", BEAT], N=256
-)
+DIVERGING = LinearSegmentedColormap.from_list("okabe_diverging", [MISS, "#F2EFEA", BEAT], N=256)
 
 
 def save(fig: Figure, path: Path, *, raster: bool = False) -> Path:

@@ -154,15 +154,3 @@ def standardized_unexpected_earnings(
     if not out:
         return eps.assign(sue=np.nan)
     return pd.concat(out, ignore_index=True)
-
-
-def bucket_summary(events: pd.DataFrame, column: str = "category") -> pd.DataFrame:
-    """Counts and shares per surprise bucket, for the README's sample table."""
-    counts = events[column].value_counts()
-    return pd.DataFrame(
-        {
-            "bucket": counts.index,
-            "n": counts.to_numpy(),
-            "share_pct": (counts.to_numpy() / len(events) * 100.0).round(2),
-        }
-    ).sort_values("bucket").reset_index(drop=True)

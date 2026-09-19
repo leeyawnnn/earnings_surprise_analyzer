@@ -110,7 +110,7 @@ def run_backtests(
                 traded, result.trades, panel, CostModel(cfg.costs), risk_free=risk_free
             )
         results[timing] = result
-        rows.append({"entry_timing": timing, **result.metrics})
+        rows.append({**result.metrics, "entry_timing": timing})
     return results, pd.DataFrame(rows)
 
 
@@ -194,15 +194,17 @@ def run_power(events: pd.DataFrame, tests: pd.DataFrame, metric: str) -> pd.Data
                 "metric": metric,
                 "observed_spread_pct": effect,
                 "pooled_sd_pct": pooled_sd,
-                "n_events_observed": int(len(tradeable)),
-                "n_seasons": int(len(sizes)),
+                "n_events_observed": len(tradeable),
+                "n_seasons": len(sizes),
                 "mean_events_per_season": mean_size,
                 "se_naive": se_naive,
                 "se_clustered": se_cluster,
                 "variance_inflation": inflation,
                 "icc_season": icc,
                 "design_effect_from_icc": 1.0 + (mean_size - 1.0) * icc,
-                "effective_sample_size": len(tradeable) / inflation if inflation > 0 else float("nan"),
+                "effective_sample_size": len(tradeable) / inflation
+                if inflation > 0
+                else float("nan"),
                 "n_for_80pct_power_independent": inference.required_sample_size(
                     effect, pooled_sd, variance_inflation=1.0
                 ),
@@ -305,11 +307,12 @@ def write_results(
         "power_analysis": results.power,
         "announcement_timing": results.timing,
         "reaction_decomposition": results.decomposition,
-        "sample_audit": pd.DataFrame(
-            [{"stage": k, "n": v} for k, v in results.audit.items()]
-        ),
+        "sample_audit": pd.DataFrame([{"stage": k, "n": v} for k, v in results.audit.items()]),
         "breakeven_cost": pd.DataFrame(
-            [{"entry_timing": k, "breakeven_round_trip_bps": v} for k, v in results.breakeven_bps.items()]
+            [
+                {"entry_timing": k, "breakeven_round_trip_bps": v}
+                for k, v in results.breakeven_bps.items()
+            ]
         ),
     }
     written: list[Path] = []
@@ -319,13 +322,19 @@ def write_results(
         config.write_provenance(
             path,
             command="python main.py study",
-            data_source="SEC EDGAR (8-K item 2.02, XBRL EPS), Yahoo Finance prices, Ken French factors",
+            data_source=(
+                "SEC EDGAR (8-K item 2.02, XBRL EPS), Yahoo Finance prices, Ken French factors"
+            ),
             as_of=cfg.end_date,
-            extra={"n_events": int(len(results.events)), "rows": int(len(frame))},
+            extra={"n_events": len(results.events), "rows": len(frame)},
         )
         written.append(path)
 
-    daily = results.backtests["next_close"].daily if "next_close" in results.backtests else pd.DataFrame()
+    daily = (
+        results.backtests["next_close"].daily
+        if "next_close" in results.backtests
+        else pd.DataFrame()
+    )
     if not daily.empty:
         path = output_dir / "backtest_daily_next_close.parquet"
         daily.to_parquet(path)
