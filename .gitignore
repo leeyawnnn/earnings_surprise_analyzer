@@ -1,0 +1,40 @@
+# Byte-compiled / optimized
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+
+# Downloaded data and generated output.
+# Everything under these paths is regenerable via `python main.py fetch`
+# and `python main.py study`; nothing here is a source of truth.
+data/cache/
+output/
+
+# Committed exceptions: the pinned universe snapshot and the small CI sample
+!data/universe/
+!data/sample/
