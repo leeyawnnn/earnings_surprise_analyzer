@@ -127,23 +127,25 @@ detect was not this.
 
 ---
 
-## 5. Before this is finished
+## 5. Done since, for the record
 
-**The CI badge is not in the README yet.** The workflow has not run on a real GitHub Actions runner,
-because nothing has been pushed. Once `ci` passes on `main`, add this line under the licence badge:
+The CI badge is in the README: the workflow ran green on `main` across seven jobs — lint and
+types, tests on 3.11/3.12/3.13, the full sample pipeline, and the quickstart on Linux and macOS.
 
-```markdown
-[![ci](https://github.com/leeyawnnn/earnings_surprise_analyzer/actions/workflows/ci.yml/badge.svg)](https://github.com/leeyawnnn/earnings_surprise_analyzer/actions/workflows/ci.yml)
+Getting it green took one fix worth knowing about. `test_alpha_is_not_found_in_pure_factor_exposure`
+built its portfolio as an exact multiple of the market factor, which leaves a regression with no
+residual variance: the standard error collapsed to about 1e-21 and the t-statistic was reporting on
+the runner's linear algebra library rather than on the data. It passed on my machine and failed on
+CI, which is the only useful thing it ever did. The portfolio now carries idiosyncratic noise and
+the test asserts the standard error is non-degenerate before reading the p-value.
+
+The repository description and topics are set:
+
 ```
+Event study of post-earnings announcement drift on US equities: surprise measurement, abnormal
+return windows, corrected inference, and a costed backtest.
 
-**Repository description and topics**, to set via `gh repo edit` or the web UI:
-
-```
-Description:
-Event study of post-earnings announcement drift on US equities: surprise measurement, abnormal return windows, corrected inference, and a costed backtest.
-
-Topics:
 event-study  pead  earnings  quantitative-finance  backtesting  python  equity-research
 ```
 
-**Then delete this file.**
+**Now delete this file.**

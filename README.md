@@ -4,6 +4,7 @@ An event study of post-earnings announcement drift on US equities: point-in-time
 measurement, abnormal return windows, inference corrected for overlapping events, and a costed
 backtest.
 
+[![ci](https://github.com/leeyawnnn/earnings_surprise_analyzer/actions/workflows/ci.yml/badge.svg)](https://github.com/leeyawnnn/earnings_surprise_analyzer/actions/workflows/ci.yml)
 [![license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![python](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue.svg)](pyproject.toml)
 
