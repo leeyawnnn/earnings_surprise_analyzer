@@ -2,13 +2,22 @@
 
     python main.py fetch      # download filings, prices and factors into data/cache
     python main.py study      # build the event panel and write docs/results
-    python main.py figures    # redraw every figure from the last study
-    python main.py all        # study then figures
+    python main.py figures    # rerun the study and redraw every figure
+    python main.py all        # the same, and print the headline numbers
+
+``figures`` reruns the study rather than reading a cached result set. It takes
+about twenty seconds and it means a figure can never be drawn from numbers
+that no longer match the tables beside it.
 
 ``snapshot-universe`` refreshes the committed index membership file. It is
 deliberately separate: refreshing it changes the universe and therefore every
 published number, so it should never happen as a side effect of an analysis
 run.
+
+Add ``--sample`` to any of these to run against the committed 24-company
+slice in ``data/sample`` instead of the full download cache. Sample runs write
+to ``output/`` rather than ``docs/``, so they cannot overwrite a published
+result table.
 """
 
 from __future__ import annotations
@@ -20,6 +29,18 @@ from pathlib import Path
 from esa import config, pipeline, study, universe
 from esa.config import StudyConfig
 from esa.plotting import figures
+
+USAGE = """\
+stages:
+  fetch              download filings, prices and factors into data/cache
+  study              build the event panel and write docs/results
+  figures            rerun the study and redraw every figure
+  all                the same, and print the headline numbers
+  snapshot-universe  refresh the committed index membership file
+
+--sample runs any stage against the committed 24-company slice in data/sample
+instead of the full download cache, and writes to output/ rather than docs/.
+"""
 
 
 def _print_headline(results: study.StudyResults) -> None:
@@ -52,7 +73,12 @@ def _print_headline(results: study.StudyResults) -> None:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="main.py", description=__doc__)
+    parser = argparse.ArgumentParser(
+        prog="main.py",
+        description="Post-earnings announcement drift: fetch, study, figures.",
+        epilog=USAGE,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
     parser.add_argument(
         "command",
         choices=["fetch", "study", "figures", "all", "snapshot-universe"],
