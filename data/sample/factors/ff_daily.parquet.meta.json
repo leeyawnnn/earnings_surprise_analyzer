@@ -1,0 +1,10 @@
+{
+  "artifact": "ff_daily.parquet",
+  "command": "python main.py fetch",
+  "data_as_of": "2026-07-31",
+  "data_source": "Kenneth R. French Data Library: F-F_Research_Data_Factors_daily_CSV.zip, F-F_Momentum_Factor_daily_CSV.zip",
+  "first_date": "1926-07-01",
+  "generated_utc": "2026-09-19T05:49:23Z",
+  "git_commit": "a89097f",
+  "n_days": 26296
+}

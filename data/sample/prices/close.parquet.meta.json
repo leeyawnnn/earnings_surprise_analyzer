@@ -1,0 +1,11 @@
+{
+  "artifact": "close.parquet",
+  "command": "python main.py fetch",
+  "data_as_of": "2026-09-19",
+  "data_source": "Yahoo Finance via yfinance, auto_adjust=True",
+  "first_session": "2009-01-02",
+  "generated_utc": "2026-09-19T06:12:53Z",
+  "git_commit": "9106e59",
+  "last_session": "2026-09-18",
+  "n_tickers": 25
+}

@@ -1,0 +1,25 @@
+ticker,name,sector,cik,date_added
+AAPL,Apple Inc.,Information Technology,320193,1982-11-30
+BAC,Bank of America,Financials,70858,1976-06-30
+CAT,Caterpillar Inc.,Industrials,18230,1957-03-04
+COST,Costco,Consumer Staples,909832,1993-10-01
+CSCO,Cisco,Information Technology,858877,1993-12-01
+CVX,Chevron Corporation,Energy,93410,1957-03-04
+GS,Goldman Sachs,Financials,886982,2002-07-22
+HD,Home Depot (The),Consumer Discretionary,354950,1988-03-31
+INTC,Intel,Information Technology,50863,1976-12-31
+JNJ,Johnson & Johnson,Health Care,200406,1973-06-30
+JPM,JPMorgan Chase,Financials,19617,1975-06-30
+KO,Coca-Cola Company (The),Consumer Staples,21344,1957-03-04
+MCD,McDonald's,Consumer Discretionary,63908,1970-06-30
+MSFT,Microsoft,Information Technology,789019,1994-06-01
+NKE,"Nike, Inc.",Consumer Discretionary,320187,1988-11-30
+NVDA,Nvidia,Information Technology,1045810,2001-11-30
+PFE,Pfizer,Health Care,78003,1957-03-04
+PG,Procter & Gamble,Consumer Staples,80424,1957-03-04
+T,AT&T,Communication Services,732717,1983-11-30
+UNH,UnitedHealth Group,Health Care,731766,1994-07-01
+UPS,United Parcel Service,Industrials,1090727,2002-07-22
+VZ,Verizon,Communication Services,732712,1983-11-30
+WMT,Walmart,Consumer Staples,104169,1982-08-31
+XOM,ExxonMobil,Energy,2115436,1957-03-04
