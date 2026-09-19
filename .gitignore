@@ -38,3 +38,4 @@ output/
 # Committed exceptions: the pinned universe snapshot and the small CI sample
 !data/universe/
 !data/sample/
+*.egg-info/
