@@ -1,0 +1,55 @@
+cff-version: 1.2.0
+title: earnings_surprise_analyzer
+message: >-
+  If you refer to this work, please cite it as below.
+type: software
+authors:
+  - given-names: Lyonn
+    family-names: Lie
+    alias: leeyawnnn
+repository-code: https://github.com/leeyawnnn/earnings_surprise_analyzer
+abstract: >-
+  An event study of post-earnings announcement drift on US equities. Earnings
+  releases are dated by the acceptance timestamp of the 8-K carrying item 2.02,
+  and surprise is measured as standardised unexpected earnings built from
+  first-reported XBRL figures, so both are point-in-time. Inference is
+  corrected for overlapping event windows and for correlation within an
+  earnings season, and the backtest is marked daily and costed.
+keywords:
+  - event study
+  - post-earnings announcement drift
+  - quantitative finance
+  - backtesting
+  - equity research
+license: Apache-2.0
+version: 0.2.0
+date-released: "2026-09-19"
+references:
+  - type: article
+    title: An Empirical Evaluation of Accounting Income Numbers
+    authors:
+      - family-names: Ball
+        given-names: Ray
+      - family-names: Brown
+        given-names: Philip
+    journal: Journal of Accounting Research
+    volume: 6
+    issue: 2
+    start: 159
+    end: 178
+    year: 1968
+    doi: 10.2307/2490232
+  - type: article
+    title: >-
+      Post-Earnings-Announcement Drift: Delayed Price Response or Risk Premium?
+    authors:
+      - family-names: Bernard
+        given-names: Victor L.
+      - family-names: Thomas
+        given-names: Jacob K.
+    journal: Journal of Accounting Research
+    volume: 27
+    start: 1
+    end: 36
+    year: 1989
+    doi: 10.2307/2491062

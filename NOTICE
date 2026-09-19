@@ -1,0 +1,41 @@
+earnings_surprise_analyzer
+Copyright 2026 Lyonn Lie
+
+Licensed under the Apache License, Version 2.0. See LICENSE.
+
+This repository redistributes small extracts of third-party data. None of it is
+covered by the Apache licence above; each is listed here with its own terms.
+
+1. data/universe/sp500_constituents_2026-09-19.csv
+   Company names, sectors, SEC central index keys and index join dates, taken
+   from the "List of S&P 500 companies" article on Wikipedia, retrieved
+   2026-09-19. Wikipedia text is available under the Creative Commons
+   Attribution-ShareAlike 4.0 licence.
+   "S&P 500" is a registered trademark of S&P Dow Jones Indices LLC. This
+   project is not affiliated with, endorsed by, or sponsored by S&P Dow Jones
+   Indices, and the snapshot is a third-party transcription rather than the
+   index itself.
+
+2. data/sample/sec/*.parquet
+   Extracts from SEC EDGAR: 8-K filing metadata and XBRL company-concept
+   facts. United States government works are not subject to copyright.
+   Retrieved 2026-09-19 under EDGAR's access policy, which requires a
+   descriptive User-Agent and a request rate below ten per second; the client
+   in src/esa/sec.py complies with both.
+
+3. data/sample/prices/*.parquet
+   Split- and dividend-adjusted daily opening and closing prices for 25
+   symbols, retrieved from Yahoo Finance on 2026-09-19 through the yfinance
+   package. Yahoo's terms permit personal, non-commercial use. The extract is
+   included so that tests and continuous integration can run without network
+   access; it is not a redistribution of Yahoo's full dataset and should not
+   be relied on for any other purpose.
+
+4. data/sample/factors/ff_daily.parquet
+   Daily market, size, value and momentum factor returns and the one-month
+   Treasury bill rate, from the Kenneth R. French Data Library at Dartmouth
+   College, retrieved 2026-09-19. Provided by Professor French for research
+   use, with the request that the source be credited.
+
+No third-party source listed here is warranted by this project, and none of
+them has reviewed or endorsed the analysis built on top of it.

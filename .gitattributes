@@ -1,0 +1,15 @@
+# Generated and vendored content, so GitHub reports the language of the code
+# rather than of the figures and data.
+docs/figures/** linguist-generated=true
+docs/results/** linguist-generated=true
+data/universe/** linguist-vendored=true
+data/sample/** linguist-vendored=true
+
+# Parquet is binary; never try to merge or diff it as text.
+*.parquet binary
+*.png binary
+
+# SVG is text but it is generated, so keep it out of diffs and language stats.
+*.svg -diff linguist-generated=true
+
+* text=auto eol=lf
