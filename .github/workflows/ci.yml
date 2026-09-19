@@ -1,0 +1,114 @@
+name: ci
+
+# Third-party actions are pinned to commit SHAs rather than tags. A tag is a
+# moving reference the action's owner can repoint at any time; a SHA is not.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Nothing in CI has a display, and a figure that silently picks an
+  # interactive backend hangs rather than fails.
+  MPLBACKEND: Agg
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+
+jobs:
+  lint:
+    name: lint and types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            requirements.lock.txt
+      - run: python -m pip install -e ".[dev]"
+      - name: ruff check
+        run: ruff check --output-format=github .
+      - name: ruff format
+        run: ruff format --check --diff .
+      - name: mypy
+        run: mypy
+
+  test:
+    name: tests (py${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            requirements.lock.txt
+      - run: python -m pip install -e ".[dev]"
+      - name: pytest
+        # The floor sits a little under the current 90% so an ordinary change
+        # does not fail the build, while a module arriving untested does.
+        run: pytest -q --cov=esa --cov-report=term-missing --cov-fail-under=85
+
+  pipeline:
+    name: full pipeline on the committed sample
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            requirements.lock.txt
+      - name: install the pinned versions behind the published numbers
+        run: |
+          python -m pip install -r requirements.lock.txt
+          python -m pip install -e .
+      - name: run the study and redraw every figure
+        # No network: this runs entirely against data/sample, so a failure here
+        # is a failure in the code rather than an upstream outage.
+        run: python main.py all --sample
+      - name: check every figure was produced
+        run: |
+          count=$(find output/sample_figures -name '*.svg' -o -name '*.png' | wc -l)
+          echo "rendered $count figures"
+          test "$count" -eq 9
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: sample-run
+          path: |
+            output/sample_figures
+            output/sample_results
+          retention-days: 14
+
+  quickstart:
+    name: quickstart on a clean clone
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: the commands the README tells a reader to run
+        run: |
+          python -m pip install -e .
+          python main.py study --sample --quiet
+          python main.py figures --sample --quiet
