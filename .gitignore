@@ -35,7 +35,6 @@ htmlcov/
 data/cache/
 output/
 
-# Committed exceptions: the pinned universe snapshot and the small CI sample
-!data/universe/
-!data/sample/
+# data/universe/ and data/sample/ are deliberately tracked. They are pinned
+# inputs that published numbers depend on, not regenerable output.
 *.egg-info/

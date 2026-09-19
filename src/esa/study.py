@@ -14,7 +14,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from . import config, decay, inference, pipeline
+from . import config, consensus, decay, inference, pipeline
 from .backtest import BacktestResult, cost_sweep, run_backtest
 from .config import StudyConfig
 from .prices import PricePanel
@@ -46,6 +46,7 @@ class StudyResults:
     power: pd.DataFrame = field(default_factory=pd.DataFrame)
     timing: pd.DataFrame = field(default_factory=pd.DataFrame)
     decomposition: pd.DataFrame = field(default_factory=pd.DataFrame)
+    definition_comparison: pd.DataFrame = field(default_factory=pd.DataFrame)
 
 
 def run_inference(events: pd.DataFrame, cfg: StudyConfig, *, verbose: bool = True) -> pd.DataFrame:
@@ -222,6 +223,73 @@ def run_power(events: pd.DataFrame, tests: pd.DataFrame, metric: str) -> pd.Data
     )
 
 
+def compare_surprise_definitions(
+    events: pd.DataFrame, cfg: StudyConfig, *, cache_dir: Path | None = None
+) -> pd.DataFrame:
+    """Does the headline result depend on how surprise is defined?
+
+    Re-runs the drift test on the subset of events that have both measures:
+    standardised unexpected earnings, which is point-in-time, and deviation
+    from Yahoo's current consensus, which is not. Reporting the two side by
+    side is the only way to say whether the choice of measure is doing the
+    work, rather than asserting that it is not.
+
+    Returns an empty frame when the consensus cache is absent, since it is an
+    optional download and nothing in the headline result depends on it.
+    """
+    try:
+        quotes = consensus.load_consensus(cache_dir)
+    except FileNotFoundError:
+        return pd.DataFrame()
+
+    joined = consensus.attach_to_events(events, quotes)
+    both = joined.dropna(subset=["sue", "pct_surprise"]).copy()
+    if len(both) < 200:
+        return pd.DataFrame()
+
+    from .surprise import categorize_series
+
+    rows = []
+    definitions = {
+        "SUE (point-in-time)": categorize_series(
+            both["sue"], beat=cfg.beat_threshold, miss=cfg.miss_threshold
+        ),
+        "percent of consensus (not point-in-time)": categorize_series(
+            both["pct_surprise"],
+            beat=config.PCT_BEAT_THRESHOLD,
+            miss=config.PCT_MISS_THRESHOLD,
+        ),
+    }
+    for label, buckets in definitions.items():
+        frame = both.assign(category=buckets)
+        naive = inference.welch_spread(frame, "abdrift_d20")
+        clustered = inference.block_bootstrap_spread(
+            frame, "abdrift_d20", n_boot=cfg.n_bootstrap, seed=cfg.random_seed
+        )
+        rows.append(
+            {
+                "definition": label,
+                "n_beat": int((buckets == "Beat").sum()),
+                "n_miss": int((buckets == "Miss").sum()),
+                "drift_d20_spread_pp": naive.estimate,
+                "p_naive": naive.p_value,
+                "p_season_clustered": clustered.p_value,
+            }
+        )
+
+    frame = pd.DataFrame(rows)
+    agree = (
+        definitions["SUE (point-in-time)"]
+        == definitions["percent of consensus (not point-in-time)"]
+    ).mean()
+    frame["n_overlap_events"] = len(both)
+    frame["first_overlap"] = str(both["announcement_date"].min().date())
+    frame["last_overlap"] = str(both["announcement_date"].max().date())
+    frame["rank_correlation"] = both["sue"].corr(both["pct_surprise"], method="spearman")
+    frame["bucket_agreement_pct"] = agree * 100.0
+    return frame
+
+
 def run_study(
     cfg: StudyConfig,
     *,
@@ -280,6 +348,7 @@ def run_study(
         power=run_power(events, tests, "abdrift_d20"),
         timing=pipeline.timing_breakdown(events),
         decomposition=decompose_reaction(events, cfg),
+        definition_comparison=compare_surprise_definitions(events, cfg, cache_dir=cache_dir),
     )
     write_results(results, cfg, results_dir=results_dir, output_dir=output_dir)
     return results
@@ -307,6 +376,7 @@ def write_results(
         "power_analysis": results.power,
         "announcement_timing": results.timing,
         "reaction_decomposition": results.decomposition,
+        "surprise_definition_comparison": results.definition_comparison,
         "sample_audit": pd.DataFrame([{"stage": k, "n": v} for k, v in results.audit.items()]),
         "breakeven_cost": pd.DataFrame(
             [
@@ -317,6 +387,9 @@ def write_results(
     }
     written: list[Path] = []
     for name, frame in tables.items():
+        if frame.empty and name == "surprise_definition_comparison":
+            # Optional: only produced when the consensus cache is present.
+            continue
         path = results_dir / f"{name}.csv"
         frame.to_csv(path, index=False)
         config.write_provenance(
