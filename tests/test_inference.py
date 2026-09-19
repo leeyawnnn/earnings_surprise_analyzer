@@ -225,14 +225,31 @@ class TestCalendarTime:
         assert result.p_value < 0.01
 
     def test_alpha_is_not_found_in_pure_factor_exposure(self) -> None:
+        """A book that is only market exposure has no alpha to find.
+
+        The portfolio carries idiosyncratic noise on top of its market
+        loading, which is not decoration. An exact multiple of the factor
+        gives a regression with no residual variance at all: the fit is
+        perfect to machine precision, the standard error collapses to about
+        1e-21, and the t-statistic is then a report on the host's floating
+        point rather than on the data. An earlier version of this test did
+        exactly that, passed on my machine and failed on CI.
+        """
         dates = pd.bdate_range("2015-01-01", periods=800)
         rng = np.random.default_rng(9)
         market = rng.normal(0, 0.01, len(dates))
-        portfolio = pd.DataFrame({"spread_ret": 0.9 * market}, index=dates)
+        noise = rng.normal(0, 0.004, len(dates))
+        portfolio = pd.DataFrame({"spread_ret": 0.9 * market + noise}, index=dates)
         factors = pd.DataFrame(
             {"mkt_rf": market, "smb": 0.0, "hml": 0.0, "mom": 0.0, "rf": 0.0}, index=dates
         )
-        result, _ = calendar_time_alpha(portfolio, factors, factor_columns=("mkt_rf",), hac_lags=5)
+        result, loadings = calendar_time_alpha(
+            portfolio, factors, factor_columns=("mkt_rf",), hac_lags=5
+        )
+        # The regression has to be non-degenerate for its p-value to mean
+        # anything, so assert that before reading it.
+        assert result.std_error > 1e-6
+        assert loadings["mkt_rf"] == pytest.approx(0.9, abs=0.05)
         assert result.p_value > 0.05
 
 
