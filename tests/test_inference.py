@@ -234,3 +234,48 @@ class TestCalendarTime:
         )
         result, _ = calendar_time_alpha(portfolio, factors, factor_columns=("mkt_rf",), hac_lags=5)
         assert result.p_value > 0.05
+
+
+class TestVectorisedClusterRobust:
+    """The fast path must equal the slow one it replaced.
+
+    The cluster-robust variance in :func:`wild_cluster_bootstrap` is computed
+    as a quadratic form in one row of the inverse Gram matrix, and the
+    per-cluster score sums are accumulated with a scatter-add across every
+    bootstrap replication at once. That is several algebraic steps away from
+    the textbook sandwich, and a sign or an index slip in it would not be
+    visible in any of the behavioural tests above — the p-values would simply
+    be wrong by a plausible-looking amount.
+    """
+
+    def test_matches_a_textbook_sandwich_estimator(self) -> None:
+        rng = np.random.default_rng(5)
+        n_obs, n_clusters = 400, 12
+        codes = rng.integers(0, n_clusters, n_obs)
+        beat = (rng.random(n_obs) > 0.5).astype(float)
+        y = 1.5 * beat + rng.normal(0, 3, n_obs) + rng.normal(0, 2, n_clusters)[codes]
+        events = pd.DataFrame(
+            {
+                "value": y,
+                "category": np.where(beat > 0, "Beat", "Miss"),
+                "season": [f"s{c}" for c in codes],
+            }
+        )
+
+        result = wild_cluster_bootstrap(events, "value", n_boot=50, seed=1)
+
+        design = np.column_stack([np.ones(n_obs), beat])
+        beta = np.linalg.lstsq(design, y, rcond=None)[0]
+        resid = y - design @ beta
+        gram_inv = np.linalg.inv(design.T @ design)
+        meat = np.zeros((2, 2))
+        for cluster in range(n_clusters):
+            rows = codes == cluster
+            score = design[rows].T @ resid[rows]
+            meat += np.outer(score, score)
+        adjust = n_clusters / (n_clusters - 1) * (n_obs - 1) / (n_obs - 2)
+        se_reference = float(np.sqrt((adjust * gram_inv @ meat @ gram_inv)[1, 1]))
+
+        assert result.estimate == pytest.approx(float(beta[1]), abs=1e-12)
+        assert result.std_error == pytest.approx(se_reference, abs=1e-12)
+        assert result.statistic == pytest.approx(float(beta[1]) / se_reference, abs=1e-12)
