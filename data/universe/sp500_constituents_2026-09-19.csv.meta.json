@@ -1,0 +1,10 @@
+{
+  "artifact": "sp500_constituents_2026-09-19.csv",
+  "command": "python main.py snapshot-universe",
+  "data_as_of": "2026-09-19",
+  "data_source": "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies",
+  "generated_utc": "2026-09-19T05:49:08Z",
+  "git_commit": "a89097f",
+  "n_constituents": 503,
+  "n_missing_date_added": 0
+}
