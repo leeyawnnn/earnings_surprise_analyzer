@@ -285,12 +285,32 @@ def compute_metrics(
     gross_profit = float(trades.loc[wins, "net_ret_pct"].sum())
     gross_loss = float(-trades.loc[~wins, "net_ret_pct"].sum())
 
+    # The benchmark's own risk statistics, on the same sessions. A long-short
+    # book running 10% volatility and a long-only index running twice that are
+    # not comparable on total return alone, and quoting only the return gap
+    # would flatter whichever side happened to be less risky.
     bench = panel.close.get("SPY")
     bench_total = float("nan")
+    bench_vol = float("nan")
+    bench_sharpe = float("nan")
+    bench_drawdown = float("nan")
+    bench_cagr = float("nan")
     if bench is not None:
         window = bench.loc[daily.index[0] : daily.index[-1]].dropna()
         if len(window) > 1:
             bench_total = float(window.iloc[-1] / window.iloc[0] - 1.0) * 100.0
+            bench_daily = window.pct_change().dropna()
+            bench_vol = float(bench_daily.std(ddof=1) * np.sqrt(TRADING_DAYS_PER_YEAR)) * 100.0
+            bench_excess = bench_daily
+            if risk_free is not None:
+                bench_excess = bench_daily - risk_free.reindex(bench_daily.index).fillna(0.0)
+            if bench_excess.std(ddof=1) > 0:
+                bench_sharpe = float(
+                    bench_excess.mean() / bench_excess.std(ddof=1) * np.sqrt(TRADING_DAYS_PER_YEAR)
+                )
+            bench_curve = (1.0 + bench_daily).cumprod()
+            bench_drawdown = float((bench_curve / bench_curve.cummax() - 1.0).min()) * 100.0
+            bench_cagr = ((1.0 + bench_total / 100.0) ** (1.0 / years) - 1.0) * 100.0
 
     return {
         "n_trades": float(len(trades)),
@@ -320,6 +340,10 @@ def compute_metrics(
         "avg_positions": float((daily["n_long"] + daily["n_short"]).mean()),
         "round_trip_cost_bps": model.round_trip_bps,
         "benchmark_total_return_pct": bench_total,
+        "benchmark_ann_vol_pct": bench_vol,
+        "benchmark_sharpe": bench_sharpe,
+        "benchmark_max_drawdown_pct": bench_drawdown,
+        "benchmark_cagr_pct": bench_cagr,
         "years": years,
     }
 
